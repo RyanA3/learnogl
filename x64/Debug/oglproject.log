@@ -1,4 +1,2 @@
 ﻿  main.cpp
-C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(80,3): warning C4838: conversion from 'float' to 'unsigned int' requires a narrowing conversion
-C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(80,3): warning C4244: 'initializing': conversion from 'float' to 'unsigned int', possible loss of data
   oglproject.vcxproj -> C:\Users\Ryan\source\repos\oglproject\x64\Debug\oglproject.exe
