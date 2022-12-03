@@ -1,2 +1,12 @@
 ﻿  main.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(174,14): warning C4244: 'initializing': conversion from '_Rep' to 'int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(184,126): warning C4244: '=': conversion from '_Rep' to 'int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
   oglproject.vcxproj -> C:\Users\Ryan\source\repos\oglproject\x64\Debug\oglproject.exe

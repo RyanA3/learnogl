@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <chrono>
 
 //Processes when the window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -156,23 +157,38 @@ int main() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
+
+	//Generate a translation matrix
 	float rotation = 0.0f;
 	glm::vec4 vec = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 	trans = glm::rotate(trans, glm::radians(45.0f), glm::vec3(0.0, 0.0, 1.0));
 	//trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
+	//Apply the translation matrix to the uniform
 	unsigned int transUniformLocation = glGetUniformLocation(shader.ID, "transform");
 	glUniformMatrix4fv(transUniformLocation, 1, GL_FALSE, glm::value_ptr(trans));
 
 
+	int startms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	int nowms = 0;
+
+	float beats_per_sec = 138.0f / 60.0f;
+	float ms_per_rotation = 1000.0f / 360.0f;
+	float rotate_time = (ms_per_rotation / beats_per_sec) * 4;
 
 	//Render loop
 	while (!glfwWindowShouldClose(window)) {
+		//Calculate rat rotation
+		nowms = std::chrono::duration_cast< std::chrono::milliseconds >( std::chrono::system_clock::now().time_since_epoch()).count();
+
+		rotation = (startms - nowms) / (rotate_time);
+		glm::mat4 curTrans = glm::rotate(trans, glm::radians(rotation), glm::vec3(0.0, 0.0, 1.0));
+
 		//input
 		processInput(window);
-		rotation += 0.025f;
-		glm::mat4 curTrans = glm::rotate(trans, glm::radians(rotation), glm::vec3(0.0, 0.0, 1.0));
+		
 
 		//rendering commands
 		//glClearColor(0, 0.1f, 0.4f, 1.0f);
