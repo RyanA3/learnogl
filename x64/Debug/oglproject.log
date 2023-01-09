@@ -1,10 +1,15 @@
 ﻿  main.cpp
-C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(174,14): warning C4244: 'initializing': conversion from '_Rep' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.h(92,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.h(93,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.h(94,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.h(95,19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(23,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(281,14): warning C4244: 'initializing': conversion from '_Rep' to 'int', possible loss of data
           with
           [
               _Rep=__int64
           ]
-C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(184,126): warning C4244: '=': conversion from '_Rep' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(317,123): warning C4244: '=': conversion from '_Rep' to 'int', possible loss of data
           with
           [
               _Rep=__int64
