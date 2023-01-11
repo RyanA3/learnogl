@@ -11,7 +11,7 @@
 
 
 //Setup camera
-SpectatorCamera camera = SpectatorCamera();
+LockedCamera camera = LockedCamera();
 
 
 //Setup variables to check time passing between each frame
@@ -67,7 +67,7 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-	
+	glfwSetWindowPos(window, 600, 200);
 
 
 	//Loads GLAD and ensures it loaded properly
@@ -289,8 +289,8 @@ int main() {
 
 	//Define positions for cubes in the world
 	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(0.0f,  0.0f,  0.0f)
+		/*glm::vec3(2.0f,  5.0f, -15.0f),
 		glm::vec3(-1.5f, -2.2f, -2.5f),
 		glm::vec3(-3.8f, -2.0f, -12.3f),
 		glm::vec3(2.4f, -0.4f, -3.5f),
@@ -298,7 +298,7 @@ int main() {
 		glm::vec3(1.3f, -2.0f, -2.5f),
 		glm::vec3(1.5f,  2.0f, -2.5f),
 		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
+		glm::vec3(-1.3f,  1.0f, -1.5f)*/
 	};
 
 
@@ -341,7 +341,7 @@ int main() {
 
 		for (glm::vec3 cube_position : cubePositions) {
 			glm::mat4 per_model_matrix = glm::mat4(1.0f);
-			per_model_matrix = glm::rotate(per_model_matrix, glm::radians(rotation), glm::normalize(cube_position));
+			//per_model_matrix = glm::rotate(per_model_matrix, glm::radians(rotation), glm::normalize(cube_position));
 			per_model_matrix = glm::translate(per_model_matrix, cube_position);
 			shader.setMat4("model_matrix", per_model_matrix);
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
