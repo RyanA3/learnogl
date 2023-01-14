@@ -146,6 +146,8 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lighting_shader.fs" />
+    <None Include="lighting_shader.vs" />
     <None Include="light_source_shader.fs" />
     <None Include="light_source_shader.vs" />
     <None Include="shader.fs" />
