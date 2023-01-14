@@ -96,41 +96,44 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 
+	
+
+
 
 
 	//Create Vertex Array & VBO
-	float verticies[] = {
-		//positions          //texels
+	float vertices[] = {
+		//positions          //colors         //texels
 		//front
-		0.5f, 0.5f, -0.5f,   1.0f, 1.0f, //top right
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f, //bottom right
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //bottom left
-		-0.5f, 0.5f, -0.5f,  0.0f, 1.0f, //top left
+		0.5f, 0.5f, -0.5f,   0.0f,0.0f,0.0f,  1.0f, 1.0f, //top right
+		0.5f, -0.5f, -0.5f,  0.0f,0.0f,0.0f,  1.0f, 0.0f, //bottom right
+		-0.5f, -0.5f, -0.5f, 0.0f,0.0f,0.0f,  0.0f, 0.0f, //bottom left
+		-0.5f, 0.5f, -0.5f,  0.0f,0.0f,0.0f,  0.0f, 1.0f, //top left
 		//back
-		0.5f, 0.5f, 0.5f,    1.0f, 1.0f, //top right
-		0.5f, -0.5f, 0.5f,   1.0f, 0.0f, //bottom right
-		-0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //bottom left
-		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f, //top left
+		0.5f, 0.5f, 0.5f,    0.0f,0.0f,0.0f,  1.0f, 1.0f, //top right
+		0.5f, -0.5f, 0.5f,   0.0f,0.0f,0.0f,  1.0f, 0.0f, //bottom right
+		-0.5f, -0.5f, 0.5f,  0.0f,0.0f,0.0f,  0.0f, 0.0f, //bottom left
+		-0.5f, 0.5f, 0.5f,   0.0f,0.0f,0.0f,  0.0f, 1.0f, //top left
 		//left
-		-0.5f, 0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f,  0.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f,  0.0f,0.0f,0.0f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f,0.0f,0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f,  0.0f,0.0f,0.0f,  0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,   0.0f,0.0f,0.0f,  0.0f, 1.0f,
 		//right
-		0.5f, 0.5f, 0.5f,    1.0f, 1.0f,
-		0.5f, -0.5f, 0.5f,   1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, 0.5f, -0.5f,   0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,    0.0f,0.0f,0.0f,  1.0f, 1.0f,
+		0.5f, -0.5f, 0.5f,   0.0f,0.0f,0.0f,  1.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,0.0f,0.0f,  0.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,   0.0f,0.0f,0.0f,  0.0f, 1.0f,
 		//top
-		0.5f, 0.5f, 0.5f,    1.0f, 1.0f,
-		0.5f, 0.5f, -0.5f,   1.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f,  0.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f,    0.0f,0.0f,0.0f,  1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f,   0.0f,0.0f,0.0f,  1.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f,  0.0f,0.0f,0.0f,  0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f,   0.0f,0.0f,0.0f,  0.0f, 1.0f,
 		//bottom
-		-0.5f, -0.5f, 0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, 0.5f,   0.0f, 1.0f
+		-0.5f, -0.5f, 0.5f,  0.0f,0.0f,0.0f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f,0.0f,0.0f,  1.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  0.0f,0.0f,0.0f,  0.0f, 0.0f,
+		0.5f, -0.5f, 0.5f,   0.0f,0.0f,0.0f,  0.0f, 1.0f
 	};
 
 
@@ -218,35 +221,85 @@ int main() {
 
 
 
-
+	
 	//Generate a VAO to describe how to handle the VBO
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
 	//bind the VAO
 	glBindVertexArray(VAO); 
-	//copy the verticies array into a OpenGL Buffer
+	//copy the vertices array into a OpenGL Buffer
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW); 
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
 	//copy the indicies array into a element buffer for OpenGL to use
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	//Tell OpenGL how the vertex data is structured so it can send it to the vertex shader properly
 	//params =   ( layout or attribute 'location', size of the vertex attribute, type of data, normalize?, stride = distance between each consecutive attribute in bytes, the offset )
 	// - location data (x, y, z)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// - color data (r, g, b)
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
-	//glEnableVertexAttribArray(2);
-	// - texel data (x, y);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*) (3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	// - texel data (x, y);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	
 
 
+	//Intl Camera
+	camera.cross.generateVAO();
 
+	/*
+	//Initialize the camera's coordinate cross models
+	float cross_vertices[] = {
+		 //x-axis (red)
+		 -1.0f, 0.0f, 0.0f,   200.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+		  1.0f, 0.0f, 0.0f,   254.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+		 //y-axis (green)
+		 0.0f, -1.0f, 0.0f,   0.0f, 200.0f, 0.0f,  0.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,   0.0f, 254.0f, 0.0f,  0.0f, 0.0f,
+		 //z-axis (blue)
+		 0.0f, 0.0f, -1.0f,   0.0f, 0.0f, 200.0f,  0.0f, 0.0f,
+		 0.0f, 0.0f,  1.0f,   0.0f, 0.0f, 254.0f,  0.0f, 0.0f
+	};
 
+	unsigned int cross_indices[] = {
+		0, 1,
+		2, 3,
+		4, 5
+	};
 
+	unsigned int cVBO;
+	glGenBuffers(1, &cVBO);
 
+	unsigned int cEBO;
+	glGenBuffers(1, &cEBO);
+
+	unsigned int cVAO;
+	glGenVertexArrays(1, &cVAO);
+	glBindVertexArray(cVAO);
+
+	//Load vertices into VBO
+	glBindBuffer(GL_ARRAY_BUFFER, cVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cross_vertices), cross_vertices, GL_STATIC_DRAW);
+
+	//Load indices into EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cross_indices), cross_indices, GL_STATIC_DRAW);
+
+	//Format the VAO
+	// - location data (x, y, z)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// - color data (r, g, b)
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// - texel data (x, y);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	*/
 
 
 
@@ -274,31 +327,12 @@ int main() {
 	glUniformMatrix4fv(projection_matrix_uniform_location, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
 
-	//Setup continuous rotation (will rotate objects as time passes)
-	float rotation = 0;
-	glm::mat4 rotated_model_matrix;
-
-	int startms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-	int nowms = 0;
-
-	float beats_per_sec = 138.0f / 60.0f;
-	float ms_per_rotation = 1000.0f / 360.0f;
-	float rotate_time = (ms_per_rotation / beats_per_sec) * 16;
 
 
 
 	//Define positions for cubes in the world
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f)
-		/*glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)*/
 	};
 
 
@@ -312,20 +346,17 @@ int main() {
 
 		//Update camera view
 		view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
-		
-		//Update model matrix based off of current rotation
-		nowms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-		rotation = (startms - nowms) / (rotate_time);
-		rotated_model_matrix = glm::rotate(model_matrix, glm::radians(rotation), glm::vec3(0.5, 0.5, 0.707));
 
 		//rendering commands
-		//glClearColor(0, 0.1f, 0.4f, 1.0f);
 		glClearColor(0, 0, 0, 1.0f);
+
 		//Clear the color and depth buffers each frame
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader.use();
-		//shader.setInt("texture0", 0);
+		shader.setInt("texture0", 0);
 		shader.setInt("texture1", 1);
+
+		shader.setBool("color_mode", false);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
@@ -333,21 +364,32 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, texture1);
 
 		//Update transformation matrices
-		//glUniformMatrix4fv(model_matrix_uniform_location, 1, GL_FALSE, glm::value_ptr(rotated_model_matrix));
 		glUniformMatrix4fv(view_matrix_uniform_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
 		glUniformMatrix4fv(projection_matrix_uniform_location, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
 		glBindVertexArray(VAO);
 
+		//Render each cube
 		for (glm::vec3 cube_position : cubePositions) {
 			glm::mat4 per_model_matrix = glm::mat4(1.0f);
-			//per_model_matrix = glm::rotate(per_model_matrix, glm::radians(rotation), glm::normalize(cube_position));
 			per_model_matrix = glm::translate(per_model_matrix, cube_position);
 			shader.setMat4("model_matrix", per_model_matrix);
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		}
 		
-		glBindVertexArray(0);
+
+
+		//Line rendering begins here
+		shader.setBool("color_mode", true);
+
+		//Bind to CoordinateCross's VAO
+		glBindVertexArray(camera.cross.getVAO());
+
+		//Generate translated matrix for the coordinate cross's model and update it
+		glm::mat4 cross_matrix = glm::mat4(1.0f);
+		cross_matrix = glm::translate(cross_matrix, camera.locked_pos);
+		shader.setMat4("model_matrix", cross_matrix);
+		glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
 
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);

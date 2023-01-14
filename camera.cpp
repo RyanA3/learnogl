@@ -78,11 +78,82 @@ void SpectatorCamera::processKeyInput(GLFWwindow* window, float delta_time) {
 
 
 
+CoordinateCross::CoordinateCross() {
+	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	generateModelData();
+};
+
+CoordinateCross::CoordinateCross(glm::vec3 pos, float scale) {
+	this->pos = pos;
+	this->scale = scale;
+	generateModelData();
+};
+
+void CoordinateCross::generateModelData() {
+
+	float new_vertices[] = {
+		//x-axis (red)
+		-(scale * neg_base), 0.0f, 0.0f,   100.0f, 0.0f, 0.0f,   0.0f, 0.0f,
+		 (scale * pos_base), 0.0f, 0.0f,   254.0f, 0.0f, 0.0f,   0.0f, 0.0f,
+		//y-axis (green)
+		0.0f, -(scale * neg_base), 0.0f,   0.0f, 100.0f, 0.0f,   0.0f, 0.0f,
+		0.0f,  (scale * pos_base), 0.0f,   0.0f, 254.0f, 0.0f,   0.0f, 0.0f,
+		//z-axis (blue)
+		0.0f, 0.0f, -(scale * neg_base),   0.0f, 0.0f, 100.0f,   0.0f, 0.0f,
+		0.0f, 0.0f,  (scale * pos_base),   0.0f, 0.0f, 254.0f,   0.0f, 0.0f
+	};
+
+	for (int i = 0; i < 48; i++) {
+		vertices[i] = new_vertices[i];
+	}
+
+};
+
+void CoordinateCross::generateVAO() {
+
+	//Generate VBO
+	glGenBuffers(1, &VBO);
+
+	//Generate EBO
+	glGenBuffers(1, &EBO);
+
+	//Generate & Bind VAO
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	//Load vertices into VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	//Load indices into EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	//Format the VAO
+	// - location data (x, y, z)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// - color data (r, g, b)
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// - texel data (x, y);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+};
+
+unsigned int CoordinateCross::getVAO() {
+	return VAO;
+};
+
+
+
 
 LockedCamera::LockedCamera() 
 	: Camera() {
 	this->yaw = 0;
 	this->pitch = glm::radians(90.0f);
+	cross = CoordinateCross();
 };
 
 LockedCamera::LockedCamera(glm::vec3 locked_pos, float distance)
@@ -91,6 +162,7 @@ LockedCamera::LockedCamera(glm::vec3 locked_pos, float distance)
 	this->distance = distance;
 	this->yaw = 0;
 	this->pitch = glm::radians(90.0f);
+	cross = CoordinateCross(locked_pos, 1.0f);
 };
 
 void LockedCamera::processMouseInput(GLFWwindow* window, double xpos, double ypos) {
@@ -158,14 +230,14 @@ void LockedCamera::updatePhiTheta(float phi, float theta) {
 
 	updateVectors();
 
-}
+};
 
 void LockedCamera::updateVectors() {
 	this->pos = glm::vec3(
-		distance * sin(pitch) * cos(yaw),
-		distance * cos(pitch),		//Y is treated as Z since the axes are swapped in OpemGL
-		distance * sin(pitch) * sin(yaw)
+		locked_pos.x + distance * sin(pitch) * cos(yaw),
+		locked_pos.y + distance * cos(pitch),		//Y is treated as Z since the axes are swapped in OpemGL
+		locked_pos.z + distance * sin(pitch) * sin(yaw)
 	);
 
 	this->forward = locked_pos - pos;
-}
+};
