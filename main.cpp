@@ -251,56 +251,6 @@ int main() {
 	//Intl Camera
 	camera.cross.generateVAO();
 
-	/*
-	//Initialize the camera's coordinate cross models
-	float cross_vertices[] = {
-		 //x-axis (red)
-		 -1.0f, 0.0f, 0.0f,   200.0f, 0.0f, 0.0f,  0.0f, 0.0f,
-		  1.0f, 0.0f, 0.0f,   254.0f, 0.0f, 0.0f,  0.0f, 0.0f,
-		 //y-axis (green)
-		 0.0f, -1.0f, 0.0f,   0.0f, 200.0f, 0.0f,  0.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,   0.0f, 254.0f, 0.0f,  0.0f, 0.0f,
-		 //z-axis (blue)
-		 0.0f, 0.0f, -1.0f,   0.0f, 0.0f, 200.0f,  0.0f, 0.0f,
-		 0.0f, 0.0f,  1.0f,   0.0f, 0.0f, 254.0f,  0.0f, 0.0f
-	};
-
-	unsigned int cross_indices[] = {
-		0, 1,
-		2, 3,
-		4, 5
-	};
-
-	unsigned int cVBO;
-	glGenBuffers(1, &cVBO);
-
-	unsigned int cEBO;
-	glGenBuffers(1, &cEBO);
-
-	unsigned int cVAO;
-	glGenVertexArrays(1, &cVAO);
-	glBindVertexArray(cVAO);
-
-	//Load vertices into VBO
-	glBindBuffer(GL_ARRAY_BUFFER, cVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cross_vertices), cross_vertices, GL_STATIC_DRAW);
-
-	//Load indices into EBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cEBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cross_indices), cross_indices, GL_STATIC_DRAW);
-
-	//Format the VAO
-	// - location data (x, y, z)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// - color data (r, g, b)
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	// - texel data (x, y);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-	*/
-
 
 
 
@@ -378,18 +328,9 @@ int main() {
 		}
 		
 
+		//Draw the Axes Lines
+		camera.cross.draw(shader, camera.locked_pos);
 
-		//Line rendering begins here
-		shader.setBool("color_mode", true);
-
-		//Bind to CoordinateCross's VAO
-		glBindVertexArray(camera.cross.getVAO());
-
-		//Generate translated matrix for the coordinate cross's model and update it
-		glm::mat4 cross_matrix = glm::mat4(1.0f);
-		cross_matrix = glm::translate(cross_matrix, camera.locked_pos);
-		shader.setMat4("model_matrix", cross_matrix);
-		glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
 
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);

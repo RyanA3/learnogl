@@ -146,6 +146,23 @@ unsigned int CoordinateCross::getVAO() {
 	return VAO;
 };
 
+void CoordinateCross::draw(Shader& shader, glm::vec3 location) {
+
+	shader.setBool("color_mode", true);
+
+	//Bind VAO
+	glBindVertexArray(VAO);
+
+	//Generate translated matrix for the coordinate cross's model and update it
+	glm::mat4 cross_matrix = glm::mat4(1.0f);
+	cross_matrix = glm::translate(cross_matrix, location);
+	shader.setMat4("model_matrix", cross_matrix);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
+
+	//Unbind VAO
+	glBindVertexArray(0);
+
+}
 
 
 

@@ -3,8 +3,13 @@ C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(51,13): warning C424
 C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(52,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(53,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(54,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(171,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(172,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(173,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(174,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(188,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(189,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(190,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(191,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(23,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  model.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\model.cpp(58,66): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  Generating Code...
   oglproject.vcxproj -> C:\Users\Ryan\source\repos\oglproject\x64\Debug\oglproject.exe

@@ -30,6 +30,9 @@
     <ClCompile Include="shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -50,6 +53,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shader.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="light_source_shader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="light_source_shader.fs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

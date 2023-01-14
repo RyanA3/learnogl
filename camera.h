@@ -2,8 +2,10 @@
 #define CAMERA_H
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <glfw-3.3.8/include/GLFW/glfw3.h>
+#include "shader.h"
 
 
 class Camera {
@@ -115,6 +117,11 @@ public:
 	* Returns the OpenGL location for the VAO
 	*/
 	unsigned int getVAO();
+
+	/*
+	* Renders the cross
+	*/
+	void draw(Shader& shader, glm::vec3 location);
 
 };
 
