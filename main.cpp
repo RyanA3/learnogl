@@ -18,6 +18,9 @@ SpectatorCamera camera = SpectatorCamera();
 float delta_time = 0.0f;
 float last_frame_time = 0.0f;
 
+//Other global variables
+
+
 //Updates the delta time based on current system time
 void updateDeltaTime() {
 	float current_frame_time = glfwGetTime();
@@ -104,52 +107,54 @@ int main() {
 
 	//Cube vertices
 	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
+		//Positions           //Normals
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+			
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-		-0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		-0.5f, -0.5f, -0.5f,
-
-		-0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f, -0.5f,
-		 0.5f,  0.5f,  0.5f,
-		 0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 
 
 	
 	//Cube
+	/*
 	unsigned int indices[] = {
 		//front
 		1, 0, 2,
@@ -169,7 +174,7 @@ int main() {
 		//bottom
 		23, 22, 21,
 		20, 23, 21
-	};
+	};*/
 
 
 	/*
@@ -238,9 +243,10 @@ int main() {
 
 	//Tell OpenGL how the vertex data is structured so it can send it to the vertex shader properly
 	// - location data (x, y, z)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(0);
-
+	glEnableVertexAttribArray(1);
 
 
 	//Generate a VAO for rendering cube light
@@ -252,7 +258,7 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	//Set attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 
@@ -279,11 +285,20 @@ int main() {
 
 	//Define positions for cubes in the world
 	glm::vec3 object_position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 light_cube_position = glm::vec3(1.0f, 0.0f, 1.0f);
+	glm::vec3 light_cube_position = glm::vec3(1.0f, 2.0f, 1.0f);
 
 	//Define light and object color
 	glm::vec3 light_color = glm::vec3(1.0f, 1.0f, 1.0f);
 	glm::vec3 object_color = glm::vec3(1.0f, 0.5f, 0.1f);
+
+
+
+	//Used to translate light source over time
+	float speed = 0.1f;
+	float revolution_radius = 2.0f;
+	glm::vec3 revolution_center = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	float object_rotation_speed = 10.0f;
 
 
 
@@ -310,6 +325,7 @@ int main() {
 		light_source_shader.setMat4("projection", projection_matrix);
 
 		glm::mat4 light_model_matrix = glm::mat4(1.0f);
+		light_cube_position = revolution_center + (glm::vec3(sin(glfwGetTime() * speed), 0.0, cos(glfwGetTime() * speed)) * revolution_radius);
 		light_model_matrix = glm::translate(light_model_matrix, light_cube_position);
 		light_model_matrix = glm::scale(light_model_matrix, glm::vec3(0.2f));
 		light_source_shader.setMat4("model", light_model_matrix);
@@ -326,10 +342,19 @@ int main() {
 		lighting_shader.use();
 		lighting_shader.setVec3("light_color", light_color);
 		lighting_shader.setVec3("object_color", object_color);
+		lighting_shader.setVec3("light_pos", light_cube_position);
+		lighting_shader.setVec3("view_pos", camera.pos);
 		lighting_shader.setMat4("view", view_matrix);
 		lighting_shader.setMat4("projection", projection_matrix);
 		glm::mat4 cube_model_matrix = glm::mat4(1.0f);
+
 		cube_model_matrix = glm::translate(cube_model_matrix, object_position);
+		cube_model_matrix = glm::rotate(cube_model_matrix, (float) glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+
+		//Calculate the normal matrix for the rotated model
+		glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
+		lighting_shader.setMat3("normal_matrix", normal_matrix);
+
 		lighting_shader.setMat4("model", cube_model_matrix);
 
 		//Bind VAO
