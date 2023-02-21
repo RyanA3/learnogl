@@ -290,6 +290,9 @@ int main() {
 	//Define light and object color
 	glm::vec3 light_color = glm::vec3(1.0f, 1.0f, 1.0f);
 	glm::vec3 object_color = glm::vec3(1.0f, 0.5f, 0.1f);
+	glm::vec3 ambient_fac = glm::vec3(0.1f);
+	glm::vec3 diffuse_fac = glm::vec3(0.5f);
+	glm::vec3 specular_fac = glm::vec3(1.0f);
 
 
 
@@ -302,6 +305,7 @@ int main() {
 
 
 
+
 	//Render loop
 	while (!glfwWindowShouldClose(window)) {
 		updateDeltaTime();
@@ -311,6 +315,11 @@ int main() {
 
 		//Update camera view
 		view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
+
+		//Change light's color over time
+		light_color.r = sin(glfwGetTime() * 2.0f);
+		light_color.g = sin(glfwGetTime() * 1.25f);
+		light_color.b = sin(glfwGetTime() * 0.66f);
 
 		//Clear the color and depth buffers each frame
 		glClearColor(0, 0, 0, 1.0f);
@@ -340,9 +349,17 @@ int main() {
 
 		//Render the object cube
 		lighting_shader.use();
-		lighting_shader.setVec3("light_color", light_color);
-		lighting_shader.setVec3("object_color", object_color);
-		lighting_shader.setVec3("light_pos", light_cube_position);
+
+		lighting_shader.setVec3("material.ambient", glm::vec3(0.05375f, 0.05f, 0.06625f));
+		lighting_shader.setVec3("material.diffuse", glm::vec3(0.18275f, 0.17f, 0.22525f));
+		lighting_shader.setVec3("material.specular", glm::vec3(0.332741f, 0.328634f, 0.346435f));
+		lighting_shader.setFloat("material.sheen", 0.3f * 128);
+
+		lighting_shader.setVec3("light.position", light_cube_position);
+		lighting_shader.setVec3("light.ambient", ambient_fac * light_color);
+		lighting_shader.setVec3("light.diffuse", diffuse_fac * light_color);
+		lighting_shader.setVec3("light.specular", specular_fac * light_color);
+
 		lighting_shader.setVec3("view_pos", camera.pos);
 		lighting_shader.setMat4("view", view_matrix);
 		lighting_shader.setMat4("projection", projection_matrix);

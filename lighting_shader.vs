@@ -7,13 +7,14 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform mat3 normal_matrix;
 
-out vec3 leNormal;
-out vec3 leFragPos;
+out vec3 frag_normal;
+out vec3 frag_pos;
 
 void main() {
 
-	leNormal = normal_matrix * normal;
-	leFragPos = vec3(model * vec4(pos, 1.0));
 	gl_Position = projection * view * model * vec4(pos, 1.0);
+
+	frag_pos = vec3(model * vec4(pos, 1.0));
+	frag_normal = normal_matrix * normal;
 
 }

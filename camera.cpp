@@ -66,13 +66,17 @@ void SpectatorCamera::processKeyInput(GLFWwindow* window, float delta_time) {
 
 	//Process input for camera
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		pos += speed * forward;
+		pos += speed * forward * glm::vec3(1.0f, 0.0f, 1.0f);
 	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		pos -= speed * forward;
+		pos -= speed * forward * glm::vec3(1.0f, 0.0f, 1.0f);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		pos -= glm::normalize(glm::cross(forward, up)) * speed;
+		pos -= (glm::normalize(glm::cross(forward, up)) * speed) * glm::vec3(1.0f, 0.0f, 1.0f);
 	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		pos += glm::normalize(glm::cross(forward, up)) * speed;
+		pos += (glm::normalize(glm::cross(forward, up)) * speed) * glm::vec3(1.0f, 0.0f, 1.0f);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		pos.y -= speed;
+	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		pos.y += speed;
 };
 
 
