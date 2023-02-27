@@ -220,6 +220,19 @@ int main() {
 	};*/
 
 
+	glm::vec3 cube_positions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
+
 	
 
 
@@ -271,7 +284,9 @@ int main() {
 	lighting_shader.setInt("material.diffuse", 0);
 	lighting_shader.setInt("material.specular", 1);
 	lighting_shader.setInt("material.emission", 2);
-
+	lighting_shader.setFloat("light.constant", 1.0f);
+	lighting_shader.setFloat("light.linear", 0.14f);
+	lighting_shader.setFloat("light.quadratic", 0.07f);
 
 
 	//Generate translation matrices
@@ -293,11 +308,13 @@ int main() {
 	//Define positions for cubes in the world
 	glm::vec3 object_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 light_cube_position = glm::vec3(1.0f, 2.0f, 1.0f);
+	glm::vec4 light_position = glm::vec4(1.0f, 2.0f, 1.0f, 1.0f);
+	glm::vec4 light_direction = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
 
 	//Define light and object color
 	glm::vec3 light_color = glm::vec3(1.0f, 1.0f, 1.0f);
 	glm::vec3 object_color = glm::vec3(1.0f, 0.5f, 0.1f);
-	glm::vec3 ambient_fac = glm::vec3(0.1f);
+	glm::vec3 ambient_fac = glm::vec3(0.05f);
 	glm::vec3 diffuse_fac = glm::vec3(0.75f);
 	glm::vec3 specular_fac = glm::vec3(1.0f);
 
@@ -328,7 +345,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-
+		
 		//Render the light source cube
 		light_source_shader.use();
 		light_source_shader.setVec3("light_color", light_color);
@@ -346,16 +363,17 @@ int main() {
 
 		//Draw
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-
+		
 
 
 		//Render the object cube
 		lighting_shader.use();
 
-		lighting_shader.setVec3("light.position", light_cube_position);
+		//lighting_shader.setVec3("light.position", light_cube_position);
 		lighting_shader.setVec3("light.ambient", ambient_fac * light_color);
 		lighting_shader.setVec3("light.diffuse", diffuse_fac * light_color);
 		lighting_shader.setVec3("light.specular", specular_fac * light_color);
+		lighting_shader.setVec4("light.pos_or_dir", glm::vec4(light_cube_position, 1.0f));
 
 		lighting_shader.setVec3("view_pos", camera.pos);
 
@@ -364,18 +382,6 @@ int main() {
 
 		lighting_shader.setMat4("projection", projection_matrix);
 		lighting_shader.setMat4("view", view_matrix);
-
-		glm::mat4 cube_model_matrix = glm::mat4(1.0f);
-
-		cube_model_matrix = glm::translate(cube_model_matrix, object_position);
-		cube_model_matrix = glm::rotate(cube_model_matrix, (float) glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-
-		lighting_shader.setMat4("model", cube_model_matrix);
-
-		//Calculate the normal matrix for the rotated model
-		glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
-		lighting_shader.setMat3("normal_matrix", normal_matrix);
-
 
 		//Bind diffuse map
 		glActiveTexture(GL_TEXTURE0);
@@ -392,8 +398,23 @@ int main() {
 		//Bind VAO
 		glBindVertexArray(VAO);
 
-		//Draw
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (int i = 0; i < 9; i++) {
+			glm::mat4 cube_model_matrix = glm::mat4(1.0f);
+
+			cube_model_matrix = glm::translate(cube_model_matrix, cube_positions[i]);
+			cube_model_matrix = glm::rotate(cube_model_matrix, (float)glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(2.0f * i, 1.0f * i, 3.0f * i)));
+
+			lighting_shader.setMat4("model", cube_model_matrix);
+
+			//Calculate the normal matrix for the rotated model
+			glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
+			lighting_shader.setMat3("normal_matrix", normal_matrix);
+
+
+			//Draw
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
 		
 
 
