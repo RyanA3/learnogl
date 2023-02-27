@@ -284,9 +284,25 @@ int main() {
 	lighting_shader.setInt("material.diffuse", 0);
 	lighting_shader.setInt("material.specular", 1);
 	lighting_shader.setInt("material.emission", 2);
-	lighting_shader.setFloat("light.constant", 1.0f);
-	lighting_shader.setFloat("light.linear", 0.14f);
-	lighting_shader.setFloat("light.quadratic", 0.07f);
+	lighting_shader.setFloat("material.sheen", 0.3f * 128);
+	//lighting_shader.setFloat("light.cutoff", glm::cos(glm::radians(12.5f)));
+	//lighting_shader.setFloat("light.outer_cutoff", glm::cos(glm::radians(15.0f)));
+	lighting_shader.setFloat("point_lights[0].constant", 1.0f);
+	lighting_shader.setFloat("point_lights[0].linear", 0.14f);
+	lighting_shader.setFloat("point_lights[0].quadratic", 0.07f);
+	lighting_shader.setVec3("directional_light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
+	lighting_shader.setVec3("directional_light.ambient", glm::vec3(0.1f, 0.05f, 0.0125f));
+	lighting_shader.setVec3("directional_light.diffuse", glm::vec3(0.75f, 0.5f, 0.05f));
+	lighting_shader.setVec3("directional_light.specular", glm::vec3(1.0f, 1.0f, 0.25f));
+
+	lighting_shader.setVec3("spot_lights[0].ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+	lighting_shader.setVec3("spot_lights[0].diffuse", glm::vec3(0.5f, 0.5f, 1.0f));
+	lighting_shader.setVec3("spot_lights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
+	lighting_shader.setFloat("spot_lights[0].constant", 1.0f);
+	lighting_shader.setFloat("spot_lights[0].linear", 0.07f);
+	lighting_shader.setFloat("spot_lights[0].quadratic", 0.017f);
+	lighting_shader.setFloat("spot_lights[0].inner_cutoff", glm::cos(glm::radians(12.5f)));
+	lighting_shader.setFloat("spot_lights[0].outer_cutoff", glm::cos(glm::radians(17.5f)));
 
 
 	//Generate translation matrices
@@ -317,7 +333,10 @@ int main() {
 	glm::vec3 ambient_fac = glm::vec3(0.05f);
 	glm::vec3 diffuse_fac = glm::vec3(0.75f);
 	glm::vec3 specular_fac = glm::vec3(1.0f);
-
+	lighting_shader.setVec3("point_lights[0].ambient", ambient_fac * light_color);
+	lighting_shader.setVec3("point_lights[0].diffuse", diffuse_fac * light_color);
+	lighting_shader.setVec3("point_lights[0].specular", specular_fac * light_color);
+	lighting_shader.setVec3("point_lights[0].position", light_cube_position);
 
 
 	//Used to translate light source over time
@@ -341,7 +360,7 @@ int main() {
 		view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
 
 		//Clear the color and depth buffers each frame
-		glClearColor(0, 0, 0, 1.0f);
+		glClearColor(0.7f, 0.75f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -369,19 +388,14 @@ int main() {
 		//Render the object cube
 		lighting_shader.use();
 
-		//lighting_shader.setVec3("light.position", light_cube_position);
-		lighting_shader.setVec3("light.ambient", ambient_fac * light_color);
-		lighting_shader.setVec3("light.diffuse", diffuse_fac * light_color);
-		lighting_shader.setVec3("light.specular", specular_fac * light_color);
-		lighting_shader.setVec4("light.pos_or_dir", glm::vec4(light_cube_position, 1.0f));
-
+		//Set camera-related uniforms & transform matrices
 		lighting_shader.setVec3("view_pos", camera.pos);
-
-		//lighting_shader.setVec3("material.specular", glm::vec3(0.332741f, 0.328634f, 0.346435f));
-		lighting_shader.setFloat("material.sheen", 0.3f * 128);
-
 		lighting_shader.setMat4("projection", projection_matrix);
 		lighting_shader.setMat4("view", view_matrix);
+
+		//Set uniforms for flashlight
+		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
+		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
 		//Bind diffuse map
 		glActiveTexture(GL_TEXTURE0);
