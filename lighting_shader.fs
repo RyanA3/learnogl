@@ -10,11 +10,11 @@ struct Material {
 };
 
 struct DirectionalLight {
-    vec3 direction;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    vec3 direction;
 };
 
 struct PointLight {
@@ -30,12 +30,12 @@ struct PointLight {
 };
 
 struct SpotLight {
-    vec3 position;
-    vec3 direction;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    vec3 position;
+    vec3 direction;
 
     float constant;
     float linear;

@@ -19,6 +19,7 @@ class Shader {
 public:
 	//Shader program id
 	unsigned int ID;  
+	unsigned int num_point_lights, num_spot_lights;
 
 	//Constructor reads and builds shaders from respective files
 	Shader(const char* vertexShaderPath, const char* fragmentShaderPath);

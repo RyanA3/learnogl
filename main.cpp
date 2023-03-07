@@ -10,6 +10,8 @@
 #include "camera.h"
 #include <assimp/aabb.h>
 #include "model.h"
+#include "Light.h"
+#include "LightManager.h"
 
 //Setup camera
 SpectatorCamera camera = SpectatorCamera();
@@ -55,46 +57,6 @@ void processMouseMovement(GLFWwindow* window, double xpos, double ypos) {
 
 
 
-//Utility function for loading textures
-unsigned int loadTexture(const char* path) {
-
-	//Generate texture
-	unsigned int texture;
-	glGenTextures(1, &texture);
-
-	//Load texture
-	int width, height, nrChannels;
-	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
-	if (data) {
-
-		GLenum format = GL_RED;
-		if (nrChannels == 1)
-			format = GL_RED;
-		else if (nrChannels == 3)
-			format = GL_RGB;
-		else if (nrChannels == 4)
-			format = GL_RGBA;
-
-		//Generate texture
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		//Settings related to texture mapping
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-		stbi_image_free(data);
-	}
-	else {
-		cout << "ERROR: Failed to load texture" << endl;
-	}
-
-	return texture;
-}
-
 
 
 int main() {
@@ -138,6 +100,8 @@ int main() {
 	//Create shader programs
 	Shader light_source_shader("light_source_shader.vs", "light_source_shader.fs");
 	Shader lighting_shader("lighting_shader.vs", "lighting_shader.fs");
+	lighting_shader.num_point_lights = 1;
+	lighting_shader.num_spot_lights = 1;
 
 	//Enable depth testing
 	glEnable(GL_DEPTH_TEST);
@@ -147,6 +111,22 @@ int main() {
 	
 
 
+
+	//Initialize lighting scene
+	LightManager light_scene = LightManager();
+	PointLight point_light = PointLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec3(0.75f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f), 1.0f, 0.14f, 0.07f);
+	light_scene.addPointLight(point_light);
+
+	DirectionalLight dir_light = DirectionalLight(glm::vec3(0.1f, 0.05f, 0.0125f), glm::vec3(0.75f, 0.5f, 0.05f), glm::vec3(0.5f, 0.5f, 0.25f), glm::vec3(0.0f, -1.0f, 0.0f));
+	light_scene.addDirLight(dir_light);
+
+	SpotLight spot_light = SpotLight(glm::vec3(0.0f), glm::vec3(0.5f, 0.5f, 1.0f), glm::vec3(0.5f), camera.pos, camera.forward,
+		1.0f, 0.07f, 0.017f, glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)));
+	light_scene.addSpotLight(spot_light);
+
+	lighting_shader.use();
+	light_scene.uploadLights(lighting_shader);
+	lighting_shader.setFloat("material.sheen", 0.3f * 128);
 
 
 	//Cube vertices
@@ -277,34 +257,10 @@ int main() {
 
 
 	//Load textures
-	unsigned int diffuse_map = loadTexture("resources/images/container2.jpg");
-	unsigned int specular_map = loadTexture("resources/images/container2_specular.jpg");
-	unsigned int emission_map = loadTexture("resources/images/container2_emission.png");
 	Model backpack = Model("resources/models/backpack/backpack.obj");
 
-	lighting_shader.use();
-	lighting_shader.setInt("material.diffuse", 0);
-	lighting_shader.setInt("material.specular", 1);
-	lighting_shader.setInt("material.emission", 2);
-	lighting_shader.setFloat("material.sheen", 0.3f * 128);
 	//lighting_shader.setFloat("light.cutoff", glm::cos(glm::radians(12.5f)));
 	//lighting_shader.setFloat("light.outer_cutoff", glm::cos(glm::radians(15.0f)));
-	lighting_shader.setFloat("point_lights[0].constant", 1.0f);
-	lighting_shader.setFloat("point_lights[0].linear", 0.14f);
-	lighting_shader.setFloat("point_lights[0].quadratic", 0.07f);
-	lighting_shader.setVec3("directional_light.direction", glm::vec3(0.0f, -1.0f, 0.0f));
-	lighting_shader.setVec3("directional_light.ambient", glm::vec3(0.1f, 0.05f, 0.0125f));
-	lighting_shader.setVec3("directional_light.diffuse", glm::vec3(0.75f, 0.5f, 0.05f));
-	lighting_shader.setVec3("directional_light.specular", glm::vec3(1.0f, 1.0f, 0.25f));
-
-	lighting_shader.setVec3("spot_lights[0].ambient", glm::vec3(0.0f, 0.0f, 0.0f));
-	lighting_shader.setVec3("spot_lights[0].diffuse", glm::vec3(0.5f, 0.5f, 1.0f));
-	lighting_shader.setVec3("spot_lights[0].specular", glm::vec3(1.0f, 1.0f, 1.0f));
-	lighting_shader.setFloat("spot_lights[0].constant", 1.0f);
-	lighting_shader.setFloat("spot_lights[0].linear", 0.07f);
-	lighting_shader.setFloat("spot_lights[0].quadratic", 0.017f);
-	lighting_shader.setFloat("spot_lights[0].inner_cutoff", glm::cos(glm::radians(12.5f)));
-	lighting_shader.setFloat("spot_lights[0].outer_cutoff", glm::cos(glm::radians(17.5f)));
 
 
 	//Generate translation matrices
@@ -329,17 +285,6 @@ int main() {
 	glm::vec4 light_position = glm::vec4(1.0f, 2.0f, 1.0f, 1.0f);
 	glm::vec4 light_direction = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
 
-	//Define light and object color
-	glm::vec3 light_color = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 object_color = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 ambient_fac = glm::vec3(0.05f);
-	glm::vec3 diffuse_fac = glm::vec3(1.0f);
-	glm::vec3 specular_fac = glm::vec3(1.0f);
-	lighting_shader.setVec3("point_lights[0].ambient", ambient_fac * light_color);
-	lighting_shader.setVec3("point_lights[0].diffuse", diffuse_fac * light_color);
-	lighting_shader.setVec3("point_lights[0].specular", specular_fac * light_color);
-	lighting_shader.setVec3("point_lights[0].position", light_cube_position);
-
 
 	//Used to translate light source over time
 	float speed = 0.1f;
@@ -349,6 +294,8 @@ int main() {
 	float object_rotation_speed = 10.0f;
 
 
+
+	glm::vec3 light_color = glm::vec3(1.0f, 0.0f, 0.0f);
 
 
 	//Render loop
@@ -386,57 +333,24 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
 
-
-		//Render the object cube
+		
+		//Render the objects
 		lighting_shader.use();
 
-		//Set camera-related uniforms & transform matrices
 		lighting_shader.setVec3("view_pos", camera.pos);
 		lighting_shader.setMat4("projection", projection_matrix);
 		lighting_shader.setMat4("view", view_matrix);
-
-		//Set uniforms for flashlight
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
-		//Bind diffuse map
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuse_map);
+		glm::mat4 cube_model_matrix = glm::mat4(1.0f);
+		cube_model_matrix = glm::rotate(cube_model_matrix, (float)glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(2.0f, 1.0f, 3.0f)));
 
-		//Bind specular map
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specular_map);
+		lighting_shader.setMat4("model", cube_model_matrix);
 
-		//Bind emission map
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, emission_map);
-
-		//Bind VAO
-		glBindVertexArray(VAO);
-
-		for (int i = 0; i < 9; i++) {
-			glm::mat4 cube_model_matrix = glm::mat4(1.0f);
-
-			cube_model_matrix = glm::translate(cube_model_matrix, cube_positions[i]);
-			cube_model_matrix = glm::rotate(cube_model_matrix, (float)glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(2.0f * i, 1.0f * i, 3.0f * i)));
-
-			lighting_shader.setMat4("model", cube_model_matrix);
-
-			//Calculate the normal matrix for the rotated model
-			glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
-			lighting_shader.setMat3("normal_matrix", normal_matrix);
-
-
-			//Draw
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
-
-		
-
-
-		//Unbind VAO
-		glBindVertexArray(0);
-
+		//Calculate the normal matrix for the rotated model
+		glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
+		lighting_shader.setMat3("normal_matrix", normal_matrix);
 		backpack.draw(lighting_shader);
 
 	

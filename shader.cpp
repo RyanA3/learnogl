@@ -78,6 +78,7 @@ Shader::Shader(const char* vertexShaderPath, const char* fragmentShaderPath) {
 	}
 
 
+
 	//Delete shader objects since they are now linked into the program and no longer individually needed
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);

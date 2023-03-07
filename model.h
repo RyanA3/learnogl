@@ -7,6 +7,7 @@
 
 #include "shader.h"
 #include "mesh.h"
+#include "TextureLoader.h"
 
 
 
