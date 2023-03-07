@@ -8,7 +8,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <chrono>
 #include "camera.h"
-
+#include <assimp/aabb.h>
+#include "model.h"
 
 //Setup camera
 SpectatorCamera camera = SpectatorCamera();
@@ -276,9 +277,10 @@ int main() {
 
 
 	//Load textures
-	unsigned int diffuse_map = loadTexture("container2.jpg");
-	unsigned int specular_map = loadTexture("container2_specular.jpg");
-	unsigned int emission_map = loadTexture("container2_emission.png");
+	unsigned int diffuse_map = loadTexture("resources/images/container2.jpg");
+	unsigned int specular_map = loadTexture("resources/images/container2_specular.jpg");
+	unsigned int emission_map = loadTexture("resources/images/container2_emission.png");
+	Model backpack = Model("resources/models/backpack/backpack.obj");
 
 	lighting_shader.use();
 	lighting_shader.setInt("material.diffuse", 0);
@@ -328,10 +330,10 @@ int main() {
 	glm::vec4 light_direction = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
 
 	//Define light and object color
-	glm::vec3 light_color = glm::vec3(1.0f, 1.0f, 1.0f);
-	glm::vec3 object_color = glm::vec3(1.0f, 0.5f, 0.1f);
+	glm::vec3 light_color = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 object_color = glm::vec3(1.0f, 0.0f, 0.0f);
 	glm::vec3 ambient_fac = glm::vec3(0.05f);
-	glm::vec3 diffuse_fac = glm::vec3(0.75f);
+	glm::vec3 diffuse_fac = glm::vec3(1.0f);
 	glm::vec3 specular_fac = glm::vec3(1.0f);
 	lighting_shader.setVec3("point_lights[0].ambient", ambient_fac * light_color);
 	lighting_shader.setVec3("point_lights[0].diffuse", diffuse_fac * light_color);
@@ -360,7 +362,7 @@ int main() {
 		view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
 
 		//Clear the color and depth buffers each frame
-		glClearColor(0.7f, 0.75f, 1.0f, 1.0f);
+		glClearColor(0.35f, 0.375f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -434,6 +436,9 @@ int main() {
 
 		//Unbind VAO
 		glBindVertexArray(0);
+
+		backpack.draw(lighting_shader);
+
 	
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);

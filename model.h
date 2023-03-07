@@ -1,53 +1,27 @@
 #pragma once
-#include <glm/glm.hpp>
 #include <iostream>
-#include <vector>
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "shader.h"
-
-/*
-* Structure for storing vertex data
-*/
-struct Vertex {
-
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec2 texel;
-
-};
-
-/*
-* Structure for storing data about a particular texture
-*/
-struct Texture {
-
-	unsigned int id;
-	std::string type;
-
-};
+#include "mesh.h"
 
 
-/*
-* Class for storing data about a surface defined by
-* 1. vertex data (vertices)
-* 2. vertex rendering order (indices)
-* 3. required textures to render (textures)
-*/
-class Mesh {
+
+class Model {
 
 public:
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
-
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
-
-	//Calls all gl draw calls to render the mesh
+	Model(std::string path);
 	void draw(Shader& shader);
 
 private:
-	unsigned int VBO, EBO, VAO;
+	std::vector<Mesh> meshes;
+	std::string directory;
 
-	//Uploads all mesh data to the gpu
-	void uploadMesh();
-
+	void loadModel(std::string path);
+	void processNode(aiNode* node, const aiScene* scene);  //A recursive function to process all nodes and sub-nodes of a scene
+	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string type_name);
 };
