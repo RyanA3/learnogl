@@ -1,8 +1,17 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "DataUtils.h"
 
-struct PointLight {
 
+
+//Used to keep track of how many lights there are to give each new one a unique id
+static int last_light_id = 0;
+
+
+
+class PointLight : public BinarySearchable {
+
+public:
 	PointLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position, float constant, float linear, float quadratic);
 
 	glm::vec3
@@ -15,10 +24,12 @@ struct PointLight {
 		constant,
 		linear,
 		quadratic;
+
 };
 
-struct SpotLight {
+class SpotLight : public BinarySearchable {
 
+public:
 	SpotLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position, glm::vec3 direction, float constant, float linear, float quadratic, float inner_cutoff, float outer_cutoff);
 
 	glm::vec3
@@ -35,10 +46,12 @@ struct SpotLight {
 
 		inner_cutoff,
 		outer_cutoff;
+
 };
 
-struct DirectionalLight {
+class DirectionalLight : public BinarySearchable {
 
+public:
 	DirectionalLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 direction);
 
 	glm::vec3
@@ -46,4 +59,5 @@ struct DirectionalLight {
 		diffuse,
 		specular,
 		direction;
+
 };

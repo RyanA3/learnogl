@@ -148,6 +148,8 @@ public:
 
 	LockedCamera(glm::vec3 locked_pos, float distance);
 
+	LockedCamera(glm::vec3 pos, glm::vec3 forward, float pitch, float yaw);
+
 	/*
 	* Updates the location of the camera based off of
 	* mouse movement

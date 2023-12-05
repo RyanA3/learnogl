@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\model">
+      <UniqueIdentifier>{d8ce2379-1807-4e3c-8ad2-901ed8f5f275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scene">
+      <UniqueIdentifier>{f786fb0a-c04c-48e2-a1b8-ae843a782172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{4aa403a2-722f-4c64-a128-d1d3e731340d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene">
+      <UniqueIdentifier>{f474ea00-ed0a-4a87-9437-6aa2022f098e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,29 +33,35 @@
     <ClCompile Include="..\..\..\..\..\..\includes\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.cpp">
+    <ClCompile Include="DataUtils.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="model.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="TextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LightManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\model</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Source Files\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,23 +71,29 @@
     <ClInclude Include="shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="DataUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="model.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\model</Filter>
     </ClInclude>
     <ClInclude Include="LightManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

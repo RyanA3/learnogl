@@ -186,6 +186,14 @@ LockedCamera::LockedCamera(glm::vec3 locked_pos, float distance)
 	cross = CoordinateCross(locked_pos, 1.0f);
 };
 
+LockedCamera::LockedCamera(glm::vec3 loc, glm::vec3 forward, float pitch, float yaw) 
+	: Camera(loc, pitch, yaw) {
+	this->distance = 1;
+	this->forward = forward;
+	this->locked_pos = forward + loc;
+	cross = CoordinateCross(locked_pos, 1.0f);
+}
+
 void LockedCamera::processMouseInput(GLFWwindow* window, double xpos, double ypos) {
 
 	//Calculate difference between new and previous mouse positions
@@ -256,7 +264,7 @@ void LockedCamera::updatePhiTheta(float phi, float theta) {
 void LockedCamera::updateVectors() {
 	this->pos = glm::vec3(
 		locked_pos.x + distance * sin(pitch) * cos(yaw),
-		locked_pos.y + distance * cos(pitch),		//Y is treated as Z since the axes are swapped in OpemGL
+		locked_pos.y + distance * cos(pitch),		//Y is treated as Z since the axes are swapped in OpenGL
 		locked_pos.z + distance * sin(pitch) * sin(yaw)
 	);
 

@@ -134,21 +134,25 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\includes\glad\src\glad.c" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="DataUtils.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="DataUtils.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />

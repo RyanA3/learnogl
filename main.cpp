@@ -12,8 +12,10 @@
 #include "model.h"
 #include "Light.h"
 #include "LightManager.h"
+#include "SceneObject.h"
 
 //Setup camera
+bool camSpectator = true;
 SpectatorCamera camera = SpectatorCamera();
 
 
@@ -68,14 +70,14 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Creates a window and brings it to front
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Learnin Window", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(1440, 960, "OGL Model Renderer", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Window failed to initialize" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-	glfwSetWindowPos(window, 600, 200);
+	glfwSetWindowPos(window, 100, 50);
 
 
 	//Loads GLAD and ensures it loaded properly
@@ -86,7 +88,7 @@ int main() {
 
 
 	//Set scale
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, 1440, 960);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
@@ -111,10 +113,9 @@ int main() {
 	
 
 
-
 	//Initialize lighting scene
 	LightManager light_scene = LightManager();
-	PointLight point_light = PointLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec3(0.75f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f), 1.0f, 0.14f, 0.07f);
+	PointLight point_light = PointLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f), 1.0f, 0.14f, 0.07f);
 	light_scene.addPointLight(point_light);
 
 	DirectionalLight dir_light = DirectionalLight(glm::vec3(0.1f, 0.05f, 0.0125f), glm::vec3(0.75f, 0.5f, 0.05f), glm::vec3(0.5f, 0.5f, 0.25f), glm::vec3(0.0f, -1.0f, 0.0f));
@@ -129,153 +130,20 @@ int main() {
 	lighting_shader.setFloat("material.sheen", 0.3f * 128);
 
 
-	//Cube vertices
-	float vertices[] = {
-		// positions          // normals           // texture coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+	//Load models into scene
+	Model backpackModel = Model("resources/models/backpack/backpack.obj");
+	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
 
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-	};
+	Model cube = Model("resources/models/cube/cube.obj");
+	SceneObject lightCube = SceneObject(cube, glm::vec3(3.0f, 10.0f, 0));
+	lightCube.setScale(0.2f);
 
 
-	
-	//Cube
-	/*
-	unsigned int indices[] = {
-		//front
-		1, 0, 2,
-		3, 2, 0,
-		//back
-		5, 4, 6,
-		7, 6, 4,
-		//left
-		9, 8, 10,
-		11, 10, 8,
-		//right
-		12, 15, 13,
-		14, 13, 15,
-		//top
-		16, 18, 17,
-		19, 18, 16,
-		//bottom
-		23, 22, 21,
-		20, 23, 21
-	};*/
-
-
-	glm::vec3 cube_positions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
-
-	
-
-
-
-
-	//Generate the VBO
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-
-	//Generate a VAO to describe how to handle the VBO
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	
-	//Load vertices into buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	
-
-	//Tell OpenGL how the vertex data is structured so it can send it to the vertex shader properly
-	// - location data (x, y, z)
-	glBindVertexArray(VAO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-
-
-	//Generate a VAO for rendering cube light
-	unsigned int light_source_VAO;
-	glGenVertexArrays(1, &light_source_VAO);
-	glBindVertexArray(light_source_VAO);
-
-	//Load vertices
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	//Set attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-
-
-	//Load textures
-	Model backpack = Model("resources/models/backpack/backpack.obj");
-
-	//lighting_shader.setFloat("light.cutoff", glm::cos(glm::radians(12.5f)));
-	//lighting_shader.setFloat("light.outer_cutoff", glm::cos(glm::radians(15.0f)));
-
-
-	//Generate translation matrices
-	// - Generate model matrix to move object into world space
-	glm::mat4 model_matrix = glm::mat4(1.0f);
-	model_matrix = glm::rotate(model_matrix, glm::radians(-55.0f), glm::vec3(0.0, 1.0, 0.0));
-
-	// - Generate view matrix to move scene relative to camera
-	glm::mat4 view_matrix;
-	view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
-
+	glm::mat4 model_matrix = glm::mat4(1.0f), view_matrix = glm::mat4(1.0f);
 	// - Generate projection matrix to map shit to the screen based on perspective
-	//   Arg 1 = fov, arg 2 = aspect ratio, arg 3 = near plane, arg 4 = far plane
-	glm::mat4 projection_matrix;
-	projection_matrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+	//   fov, aspect ratio, near plane, far plane
+	glm::mat4 projection_matrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);;
 
 
 
@@ -293,12 +161,10 @@ int main() {
 
 	float object_rotation_speed = 10.0f;
 
+	glm::vec3 light_color = glm::vec3(0.0f, 1.0f, 0.0f);
 
 
-	glm::vec3 light_color = glm::vec3(1.0f, 0.0f, 0.0f);
-
-
-	//Render loop
+	//Main loop
 	while (!glfwWindowShouldClose(window)) {
 		updateDeltaTime();
 
@@ -322,15 +188,8 @@ int main() {
 
 		glm::mat4 light_model_matrix = glm::mat4(1.0f);
 		light_cube_position = revolution_center + (glm::vec3(sin(glfwGetTime() * speed), 0.0, cos(glfwGetTime() * speed)) * revolution_radius);
-		light_model_matrix = glm::translate(light_model_matrix, light_cube_position);
-		light_model_matrix = glm::scale(light_model_matrix, glm::vec3(0.2f));
-		light_source_shader.setMat4("model", light_model_matrix);
-
-		//Bind VAO
-		glBindVertexArray(light_source_VAO);
-
-		//Draw
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		lightCube.setPos(light_cube_position);
+		lightCube.draw(light_source_shader);
 		
 
 		
@@ -343,16 +202,8 @@ int main() {
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
-		glm::mat4 cube_model_matrix = glm::mat4(1.0f);
-		cube_model_matrix = glm::rotate(cube_model_matrix, (float)glm::radians(glfwGetTime() * object_rotation_speed), glm::normalize(glm::vec3(2.0f, 1.0f, 3.0f)));
 
-		lighting_shader.setMat4("model", cube_model_matrix);
-
-		//Calculate the normal matrix for the rotated model
-		glm::mat3 normal_matrix = glm::mat3(glm::transpose(glm::inverse(cube_model_matrix)));
-		lighting_shader.setMat3("normal_matrix", normal_matrix);
 		backpack.draw(lighting_shader);
-
 	
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);

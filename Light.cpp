@@ -8,6 +8,7 @@ PointLight::PointLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular,
 	this->constant = constant;
 	this->linear = linear;
 	this->quadratic = quadratic;
+	this->uid = last_light_id++;
 }
 
 SpotLight::SpotLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position, glm::vec3 direction, 
@@ -22,6 +23,7 @@ SpotLight::SpotLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, g
 	this->quadratic = quadratic;
 	this->inner_cutoff = inner_cutoff;
 	this->outer_cutoff = outer_cutoff;
+	this->uid = last_light_id++;
 }
 
 DirectionalLight::DirectionalLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 direction) {
@@ -29,4 +31,5 @@ DirectionalLight::DirectionalLight(glm::vec3 ambient, glm::vec3 diffuse, glm::ve
 	this->diffuse = diffuse;
 	this->specular = specular;
 	this->direction = direction;
+	this->uid = last_light_id++;
 }
