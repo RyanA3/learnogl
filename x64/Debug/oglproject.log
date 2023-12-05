@@ -1,3 +1,13 @@
-﻿  main.cpp
+﻿  camera.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(77,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(78,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(79,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(80,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(231,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(232,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(233,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp(234,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  main.cpp
 C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(31,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   oglproject.vcxproj -> C:\Users\Ryan\source\repos\oglproject\x64\Debug\oglproject.exe

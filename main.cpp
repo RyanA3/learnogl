@@ -171,9 +171,6 @@ int main() {
 		//input
 		processInput(window);
 
-		//Update camera view
-		view_matrix = glm::lookAt(camera.pos, camera.pos + camera.forward, camera.up);
-
 		//Clear the color and depth buffers each frame
 		glClearColor(0.35f, 0.375f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -183,10 +180,8 @@ int main() {
 		//Render the light source cube
 		light_source_shader.use();
 		light_source_shader.setVec3("light_color", light_color);
-		light_source_shader.setMat4("view", view_matrix);
-		light_source_shader.setMat4("projection", projection_matrix);
+		camera.uploadMatrices(light_source_shader);
 
-		glm::mat4 light_model_matrix = glm::mat4(1.0f);
 		light_cube_position = revolution_center + (glm::vec3(sin(glfwGetTime() * speed), 0.0, cos(glfwGetTime() * speed)) * revolution_radius);
 		lightCube.setPos(light_cube_position);
 		lightCube.draw(light_source_shader);
@@ -195,15 +190,13 @@ int main() {
 		
 		//Render the objects
 		lighting_shader.use();
-
-		lighting_shader.setVec3("view_pos", camera.pos);
-		lighting_shader.setMat4("projection", projection_matrix);
-		lighting_shader.setMat4("view", view_matrix);
+		camera.uploadMatrices(lighting_shader);
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
-
 		backpack.draw(lighting_shader);
+
+		camera.postdrawUpdate();
 	
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);

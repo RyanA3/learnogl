@@ -1,19 +1,17 @@
 #include "camera.h"
 
 Camera::Camera() {
-	this->pos = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->pitch = 0.0f;
-	this->yaw = -90.0f;
+
 };
 
 Camera::Camera(glm::vec3 pos, float pitch, float yaw) {
 	this->pos = pos;
 	this->pitch = pitch;
 	this->yaw = yaw;
-	updateVectors();
+	updateForwardVector();
 };
 
-void Camera::updateVectors() {
+void Camera::updateForwardVector() {
 	forward.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	forward.y = sin(glm::radians(pitch));
 	forward.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -27,17 +25,45 @@ void Camera::setPitchYaw(float pitch, float yaw) {
 
 	this->pitch = pitch;
 	this->yaw = yaw;
-	updateVectors();
+	updateForwardVector();
+	this->shouldUpdateView = true;
 
 };
+
+void Camera::setPos(glm::vec3 pos) {
+	this->pos = pos;
+	this->shouldUpdateView = true;
+}
+
+void Camera::addPos(glm::vec3 dir) {
+	this->pos += dir;
+	this->shouldUpdateView = true;
+}
+
+void Camera::uploadMatrices(Shader& shader) {
+
+	if (shouldUpdateProjection) {
+		glm::mat4 projection_matrix = glm::perspective(fov, aspectRatio, nearPlane, farPlane);
+		shader.setMat4("projection", projection_matrix);
+	}
+
+	if (shouldUpdateView) {
+		glm::mat4 view_matrix = glm::lookAt(pos, pos + forward, up);
+		shader.setMat4("view", view_matrix);
+		shader.setVec3("view_pos", pos);
+	}
+
+}
+
+void Camera::postdrawUpdate() {
+	shouldUpdateProjection = false;
+	shouldUpdateView = false;
+}
 
 
 
 SpectatorCamera::SpectatorCamera() 
-	: Camera() {
-	this->sensitivity = 0.1f;
-	this->base_speed = 2.5f;
-};
+	: Camera() {};
 
 SpectatorCamera::SpectatorCamera(float sensitivity, float base_speed, glm::vec3 pos, float pitch, float yaw)
 	: Camera(pos, pitch, yaw) {
@@ -64,19 +90,24 @@ void SpectatorCamera::processMouseInput(GLFWwindow* window, double xpos, double 
 void SpectatorCamera::processKeyInput(GLFWwindow* window, float delta_time) {
 	speed = base_speed * delta_time;
 
-	//Process input for camera
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		pos += speed * forward * glm::vec3(1.0f, 0.0f, 1.0f);
-	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		pos -= speed * forward * glm::vec3(1.0f, 0.0f, 1.0f);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		pos -= (glm::normalize(glm::cross(forward, up) * glm::vec3(1.0f, 0.0f, 1.0f)) * speed);
-	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		pos += (glm::normalize(glm::cross(forward, up) * glm::vec3(1.0f, 0.0f, 1.0f)) * speed);
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		pos.y -= speed;
-	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		pos.y += speed;
+	//Forward/backward
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+		addPos(speed * forward * glm::vec3(1.0f, 0.0f, 1.0f));
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+		addPos(-speed * forward * glm::vec3(1.0f, 0.0f, 1.0f));
+
+	//Strafe left/right
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+		addPos(-(glm::normalize(glm::cross(forward, up) * glm::vec3(1.0f, 0.0f, 1.0f)) * speed));
+	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+		addPos((glm::normalize(glm::cross(forward, up) * glm::vec3(1.0f, 0.0f, 1.0f)) * speed));
+
+	//Up/down
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) 
+		addPos(glm::vec3(0, -speed, 0));
+	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+		addPos(glm::vec3(0, speed, 0));
+	
 };
 
 
