@@ -1,8 +1,10 @@
 C:\includes\glad\src\glad.c;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\glad.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\camera.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\camera.obj
+C:\Users\Ryan\source\repos\oglproject\oglproject\CoordinateCross.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\CoordinateCross.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\DataUtils.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\DataUtils.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\Light.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\Light.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\LightManager.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\LightManager.obj
+C:\Users\Ryan\source\repos\oglproject\oglproject\LockedCamera.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\LockedCamera.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\main.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\mesh.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\mesh.obj
 C:\Users\Ryan\source\repos\oglproject\oglproject\model.cpp;C:\Users\Ryan\source\repos\oglproject\oglproject\x64\Debug\model.obj

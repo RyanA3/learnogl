@@ -134,9 +134,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\includes\glad\src\glad.c" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="CoordinateCross.cpp" />
     <ClCompile Include="DataUtils.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="LockedCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="model.cpp" />
@@ -147,9 +149,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="CoordinateCross.h" />
     <ClInclude Include="DataUtils.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="LockedCamera.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="SceneObject.h" />
