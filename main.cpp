@@ -14,6 +14,10 @@
 #include "LightManager.h"
 #include "Scene.h"
 #include "SceneObject.h"
+#include "Terrain.h"
+
+//Note to self, for later physics engine
+// https://research.ncl.ac.uk/game/mastersdegree/gametechnologies/physicstutorials/5collisionresponse/Physics%20-%20Collision%20Response.pdf
 
 //Setup camera
 bool camSpectator = true;
@@ -106,10 +110,12 @@ int main() {
 	lighting_shader.num_point_lights = 1;
 	lighting_shader.num_spot_lights = 1;
 
+	Shader terrainShader("terrain.vs", "terrain.fs");
+
 	//Enable depth testing
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
 	//Initialize image loader
 	stbi_set_flip_vertically_on_load(true);
@@ -139,29 +145,18 @@ int main() {
 	Model backpackModel = Model("resources/models/backpack/backpack.obj");
 	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
 	backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
-	scene.addObject(backpack);
+	//scene.addObject(backpack);
 
-	Model cube = Model("resources/models/cube/cube.obj");
-	SceneObject lightCube = SceneObject(cube, glm::vec3(3.0f, 10.0f, 0));
+	Model cubeModel = Model("resources/models/cube/cube.obj");
+	SceneObject lightCube = SceneObject(cubeModel);
 	lightCube.setScale(0.2f);
+	glm::vec3 light_color = glm::vec3(0, 1.0f, 0);
+
+	Terrain terrain = Terrain();
 
 
-
-	//Define positions for cubes in the world
-	glm::vec3 object_position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 light_cube_position = glm::vec3(1.0f, 2.0f, 1.0f);
-	glm::vec4 light_position = glm::vec4(1.0f, 2.0f, 1.0f, 1.0f);
-	glm::vec4 light_direction = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-
-
-	//Used to translate light source over time
-	float speed = 0.1f;
-	float revolution_radius = 2.0f;
-	glm::vec3 revolution_center = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	float object_rotation_speed = 10.0f;
-
-	glm::vec3 light_color = glm::vec3(0.0f, 1.0f, 0.0f);
+	//Enable wireframe mode
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
 	//Main loop
@@ -184,21 +179,21 @@ int main() {
 		light_source_shader.use();
 		light_source_shader.setVec3("light_color", light_color);
 		camera.uploadMatrices(light_source_shader);
-
-		light_cube_position = revolution_center + (glm::vec3(sin(glfwGetTime() * speed), 0.0, cos(glfwGetTime() * speed)) * revolution_radius);
-		lightCube.setPos(light_cube_position);
 		lightCube.draw(light_source_shader);
-		
 
 		
 		//Render the objects
 		lighting_shader.use();
 		camera.uploadMatrices(lighting_shader);
-		lighting_shader.setVec3("point_lights[0].position", light_cube_position);
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
 		scene.draw(lighting_shader);
+
+		//Render terrain
+		terrainShader.use();
+		camera.uploadMatrices(terrainShader);
+		terrain.draw(terrainShader);
 
 		camera.postdrawUpdate();
 	
@@ -206,7 +201,6 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		std::cout << delta_time << endl;
 	}
 
 	//Cleanup

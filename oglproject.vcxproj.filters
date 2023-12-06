@@ -78,6 +78,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -119,6 +122,9 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files\scene</Filter>
     </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vs">
@@ -137,6 +143,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="lighting_shader.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="terrain.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="terrain.fs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

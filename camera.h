@@ -16,7 +16,7 @@ public:
 	glm::vec3 pos = glm::vec3(0.0f);
 
 	float pitch = 0;
-	float yaw = -90;
+	float yaw = 180;
 
 	float fov = glm::radians(45.0f),
 		aspectRatio = 3.0f/2.0f, 
