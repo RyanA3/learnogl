@@ -1,5 +1,7 @@
 #include "SceneObject.h"
 
+
+
 SceneObject::SceneObject(Model& model) : model(model) {};
 SceneObject::SceneObject(Model& model, glm::vec3 pos) : model(model), pos(pos) {};
 SceneObject::SceneObject(Model& model, glm::vec3 pos, glm::vec3 velocity) : model(model), pos(pos), velocity(velocity) {};

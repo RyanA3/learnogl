@@ -6,6 +6,7 @@
 #include "shader.h"
 #include "model.h"
 
+
 class SceneObject {
 private:
 	Model& model;

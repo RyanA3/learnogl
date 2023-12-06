@@ -12,6 +12,7 @@
 #include "model.h"
 #include "Light.h"
 #include "LightManager.h"
+#include "Scene.h"
 #include "SceneObject.h"
 
 //Setup camera
@@ -107,6 +108,8 @@ int main() {
 
 	//Enable depth testing
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	//Initialize image loader
 	stbi_set_flip_vertically_on_load(true);
@@ -132,19 +135,15 @@ int main() {
 
 
 	//Load models into scene
+	Scene scene = Scene();
 	Model backpackModel = Model("resources/models/backpack/backpack.obj");
 	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
 	backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
+	scene.addObject(backpack);
 
 	Model cube = Model("resources/models/cube/cube.obj");
 	SceneObject lightCube = SceneObject(cube, glm::vec3(3.0f, 10.0f, 0));
 	lightCube.setScale(0.2f);
-
-
-	glm::mat4 model_matrix = glm::mat4(1.0f), view_matrix = glm::mat4(1.0f);
-	// - Generate projection matrix to map shit to the screen based on perspective
-	//   fov, aspect ratio, near plane, far plane
-	glm::mat4 projection_matrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);;
 
 
 
@@ -172,6 +171,7 @@ int main() {
 		//input
 		processInput(window);
 
+		scene.update(delta_time / 10.0f);
 		//backpack.update(delta_time / 10);
 
 		//Clear the color and depth buffers each frame
@@ -198,7 +198,7 @@ int main() {
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
-		backpack.draw(lighting_shader);
+		scene.draw(lighting_shader);
 
 		camera.postdrawUpdate();
 	
