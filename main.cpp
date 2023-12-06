@@ -134,6 +134,7 @@ int main() {
 	//Load models into scene
 	Model backpackModel = Model("resources/models/backpack/backpack.obj");
 	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
+	backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
 
 	Model cube = Model("resources/models/cube/cube.obj");
 	SceneObject lightCube = SceneObject(cube, glm::vec3(3.0f, 10.0f, 0));
@@ -171,6 +172,8 @@ int main() {
 		//input
 		processInput(window);
 
+		//backpack.update(delta_time / 10);
+
 		//Clear the color and depth buffers each frame
 		glClearColor(0.35f, 0.375f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -191,6 +194,7 @@ int main() {
 		//Render the objects
 		lighting_shader.use();
 		camera.uploadMatrices(lighting_shader);
+		lighting_shader.setVec3("point_lights[0].position", light_cube_position);
 		lighting_shader.setVec3("spot_lights[0].position", camera.pos);
 		lighting_shader.setVec3("spot_lights[0].direction", camera.forward);
 
@@ -201,6 +205,8 @@ int main() {
 		//check & call events & swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		std::cout << delta_time << endl;
 	}
 
 	//Cleanup
