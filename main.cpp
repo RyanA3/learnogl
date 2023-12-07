@@ -28,6 +28,9 @@ SpectatorCamera camera = SpectatorCamera();
 float delta_time = 0.0f;
 float last_frame_time = 0.0f;
 
+float lastKeyOption = 0.0f;
+float wireframe = false;
+
 //Other global variables
 
 
@@ -52,6 +55,15 @@ void processInput(GLFWwindow* window) {
 
 	//Call camera update
 	camera.processKeyInput(window, delta_time);
+
+	if (glfwGetKey(window, GLFW_KEY_P)) {
+		if (glfwGetTime() - lastKeyOption < 1.0f) return;
+		lastKeyOption = glfwGetTime();
+		wireframe = !wireframe;
+		if (wireframe) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
 }
 
 
@@ -114,8 +126,8 @@ int main() {
 
 	//Enable depth testing
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	//Initialize image loader
 	stbi_set_flip_vertically_on_load(true);
@@ -144,8 +156,8 @@ int main() {
 	Scene scene = Scene();
 	Model backpackModel = Model("resources/models/backpack/backpack.obj");
 	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
-	backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
-	//scene.addObject(backpack);
+	//backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
+	scene.addObject(backpack);
 
 	Model cubeModel = Model("resources/models/cube/cube.obj");
 	SceneObject lightCube = SceneObject(cubeModel);
@@ -154,9 +166,6 @@ int main() {
 
 	Terrain terrain = Terrain();
 
-
-	//Enable wireframe mode
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
 	//Main loop

@@ -6,9 +6,14 @@
 
 class Terrain {
 private:
-	int resolution = 8;
-	float width = 1.0f;
+	int resolution = 16384;
+	float width = 50.0f;
+	float ds = width / resolution;
+	float dss = width / (resolution * resolution);
+	bool shouldUpdateFeatures = true;
+
 	glm::vec3 pos = glm::vec3(0.0f);
+	bool shouldUpdateModel = true;
 
 	std::vector<float> vertices;
 	std::vector<unsigned int> indices;
