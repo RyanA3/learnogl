@@ -6,8 +6,8 @@
 
 class Terrain {
 private:
-	int resolution = 16384;
-	float width = 50.0f;
+	int resolution = 16;
+	float width = 10.0f;
 	float ds = width / resolution;
 	float dss = width / (resolution * resolution);
 	bool shouldUpdateFeatures = true;

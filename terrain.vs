@@ -7,9 +7,8 @@ uniform mat4 projection;
 
 uniform int resolution;
 uniform float ds;
+uniform float dss;
 
 void main() {
-	float x = gl_VertexID / resolution * ds;
-	float z = gl_VertexID % resolution * ds;
-	gl_Position = projection * view * model * vec4(x, height, z, 1.0);
+	gl_Position = projection * view * model * vec4(gl_VertexID * dss, height, gl_VertexID % resolution * ds, 1.0);
 }
