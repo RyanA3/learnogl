@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "shader.h"
+#include "TextureLoader.h"
 
 /*
 * Structure for storing vertex data
@@ -12,17 +13,6 @@ struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 texel;
-
-};
-
-/*
-* Structure for storing data about a particular texture
-*/
-struct Texture {
-
-	unsigned int id;
-	std::string type;
-	std::string path;
 
 };
 

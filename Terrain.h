@@ -2,13 +2,14 @@
 #include <glm/glm.hpp>
 #include "shader.h"
 #include "vector";
+#include "TextureLoader.h"
 
 
 class Terrain {
 private:
-	int resolution = 16;
-	float width = 10.0f;
-	float ds = width / resolution;
+	int resolution = 32;
+	float width = 5.0f;
+	float ds = width / (resolution+1);
 	float dss = width / (resolution * resolution);
 	bool shouldUpdateFeatures = true;
 
@@ -19,6 +20,9 @@ private:
 	std::vector<unsigned int> indices;
 
 	unsigned int VBO, VAO, EBO;
+
+	Texture* texture;
+	bool shouldUpdateTexture = true;
 
 public:
 	Terrain();

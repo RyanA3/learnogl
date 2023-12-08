@@ -6,9 +6,17 @@ uniform mat4 view;
 uniform mat4 projection;
 
 uniform int resolution;
+uniform float width;
+uniform float invResolution;
+uniform float invResolutionSquare;
 uniform float ds;
 uniform float dss;
 
+out vec2 tex;
+
 void main() {
-	gl_Position = projection * view * model * vec4(gl_VertexID * dss, height, gl_VertexID % resolution * ds, 1.0);
+	int row = gl_VertexID / resolution;
+	int col = gl_VertexID % resolution;
+	tex = vec2(row, col) / (resolution - 1.0f);
+	gl_Position = projection * view * model * vec4(row * width / resolution, height, col * width / resolution, 1.0);
 }

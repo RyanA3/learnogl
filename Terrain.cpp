@@ -1,13 +1,15 @@
 #include "Terrain.h"
 
+//https://www.youtube.com/watch?v=5zlfJW2VGLM
+
 Terrain::Terrain() {
 	//Generate vertices
 	for (int row = 0; row < resolution; row++) {
 		for (int col = 0; col < resolution; col++) {
-			//vertices.push_back(glm::vec3(row * ds, 0.0f, col * ds));
-			float x = (((row - ((float)resolution / 2)) / resolution)) * 5;
-			float z = (((col - ((float)resolution / 2)) / resolution)) * 5;
-			vertices.push_back(x * x * z);
+			vertices.push_back(0.0f);
+			//float x = (((row - ((float)resolution / 2)) / resolution)) * 5;
+			//float z = (((col - ((float)resolution / 2)) / resolution)) * 5;
+			//vertices.push_back(x * x * z);
 		}
 	}
 
@@ -30,6 +32,8 @@ Terrain::Terrain() {
 	}	
 
 	setupMesh();
+
+	texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "jpg");
 }
 
 Terrain::Terrain(int resolution, float width) : resolution(resolution), width(width) {
@@ -68,15 +72,22 @@ void Terrain::setupMesh() {
 
 void Terrain::draw(Shader& shader) {
 
+	glActiveTexture(GL_TEXTURE0);
+	shader.setInt("terrainTexture", 0);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+
 	if (shouldUpdateModel) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, pos);
+		//model = glm::translate(model, pos);
 		shader.setMat4("model", model);
 		shouldUpdateModel = false;
 	}
 
 	if (shouldUpdateFeatures) {
 		shader.setInt("resolution", resolution);
+		shader.setFloat("width", width);
+		shader.setFloat("invResolution", 1.0f / resolution);
+		shader.setFloat("invResolutionSquare", 1.0f / (resolution * resolution));
 		shader.setFloat("ds", ds);
 		shader.setFloat("dss", dss);
 		shouldUpdateFeatures = false;

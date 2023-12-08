@@ -1,6 +1,6 @@
 ﻿  Terrain.cpp
 C:\Users\Ryan\source\repos\oglproject\oglproject\Terrain.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Ryan\source\repos\oglproject\oglproject\Terrain.cpp(86,48): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\Terrain.cpp(97,48): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   main.cpp
 C:\Users\Ryan\source\repos\oglproject\oglproject\Terrain.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(39,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
