@@ -14,7 +14,7 @@
 #include "LightManager.h"
 #include "Scene.h"
 #include "SceneObject.h"
-#include "Terrain.h"
+#include "TerrainMesh.h"
 
 //Note to self, for later physics engine
 // https://research.ncl.ac.uk/game/mastersdegree/gametechnologies/physicstutorials/5collisionresponse/Physics%20-%20Collision%20Response.pdf

@@ -144,7 +144,7 @@
     <ClCompile Include="model.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainMesh.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -160,7 +160,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
-    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainMesh.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />

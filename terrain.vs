@@ -18,5 +18,6 @@ void main() {
 	int row = gl_VertexID / resolution;
 	int col = gl_VertexID % resolution;
 	tex = vec2(row, col) / (resolution - 1.0f);
-	gl_Position = projection * view * model * vec4(row * width / resolution, height, col * width / resolution, 1.0);
+	gl_Position = projection * view * model * vec4(gl_VertexID * dss, height, col * ds, 1.0);
+
 }
