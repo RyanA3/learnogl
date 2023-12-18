@@ -14,8 +14,9 @@ ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannel
 
 	//Load texture
 	ImageData image = ImageData();
-	image.data = stbi_load(path.c_str(), &image.width, &image.height, &image.nrChannels, desiredChannels);
-	if (image.data) {
+	int width = 0, height = 0, nrChannels = 0;
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, desiredChannels);
+	if (data) {
 
 		GLenum format = GL_RED;
 		if (image.nrChannels == 1)
@@ -25,17 +26,23 @@ ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannel
 		else if (image.nrChannels == 4)
 			image.format = GL_RGBA;
 
-		stbi_image_free(image.data);
+		//stbi_image_free(data);
 	}
 	else {
 		std::cout << "ERROR: Failed to load texture " << path << std::endl;
 		return nullptr;
 	}
 
+	image.width = width;
+	image.height = height;
+	image.nrChannels = nrChannels;
+	image.data = data;
+	image.path = path;
+
 	if (save)
 		loadedImageData.push_back(image);
 
-	return &image;
+	return &loadedImageData[loadedImageData.size() - 1];
 
 }
 
@@ -91,7 +98,5 @@ Texture* LoadTextureFromFile(std::string path, std::string texture_type) {
 	loaded.type = texture_type;
 	loaded_textures.push_back(loaded);
 
-	//return &loaded_textures[loaded_textures.size() - 1];
-	return &loaded;
-
+	return &loaded_textures[loaded_textures.size() - 1];
 }

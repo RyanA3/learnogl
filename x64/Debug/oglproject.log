@@ -1,6 +1,29 @@
-﻿  TextureLoader.cpp
-C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.cpp(95): warning C4172: returning address of local variable or temporary: loaded
-C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.cpp(38): warning C4172: returning address of local variable or temporary: image
+﻿  Scene.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  SceneObject.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  TerrainMesh.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TerrainMesh.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TerrainMesh.cpp(126,48): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  TextureLoader.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TerrainMesh.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(39,27): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\main.cpp(61,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  mesh.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\mesh.cpp(71,44): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  model.cpp
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(21,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Ryan\source\repos\oglproject\oglproject\TextureLoader.h(22,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   oglproject.vcxproj -> C:\Users\Ryan\source\repos\oglproject\x64\Debug\oglproject.exe

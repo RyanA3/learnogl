@@ -12,7 +12,7 @@ uniform float invResolutionSquare;
 uniform float ds;
 uniform float dss;
 
-uniform sampler2D heightmap;
+//uniform sampler2D heightmap;
 
 out vec2 tex;
 out vec3 fragNormal;
@@ -24,8 +24,8 @@ void main() {
 
 	tex = vec2(row, col) / (resolution - 1.0f);
 
-	float map_height = texture(heightmap, tex).r;
+	//float map_height = texture(heightmap, tex).r;
 
-	gl_Position = projection * view * model * vec4(gl_VertexID * dss, map_height, col * ds, 1.0);
+	gl_Position = projection * view * model * vec4(row * width * invResolution, height, col * ds, 1.0);
 
 }

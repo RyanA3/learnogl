@@ -164,7 +164,9 @@ int main() {
 	lightCube.setScale(0.2f);
 	glm::vec3 light_color = glm::vec3(0, 1.0f, 0);
 
-	TerrainMesh terrain = TerrainMesh(nullptr, glm::vec2(0.0f), glm::vec2(1.0f), 8, 10);
+	ImageData* heightmap = LoadImageDataFromFile("resources/images/heightmap1.png", true, 3);
+	std::cout << "FROM MAIN: ImageData height: " << heightmap->height << std::endl;
+	TerrainMesh terrain = TerrainMesh(heightmap, glm::vec2(0.0f), glm::vec2(1.0f), 8, 10);
 
 
 

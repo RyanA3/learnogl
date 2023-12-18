@@ -40,7 +40,7 @@ TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::ve
 			//vertices.push_back(0.0f);
 			float x = (float) row / resolution;
 			float z = (float) col / resolution;
-			vertices.push_back(x + z);
+			vertices.push_back(heightmap->sample(x, z).x / 255.0f);
 		}
 	}
 
@@ -60,8 +60,9 @@ TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::ve
 
 	setupMesh();
 
-	this->texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "texture_diffuse");
-	this->heightmap = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\heightmap1.png", "texture_heightmap");
+	this->texture = LoadTextureFromFile("resources/images/container.jpg", "texture_diffuse");
+	this->heightmap = LoadTextureFromFile("resources/images/heightmap1.png", "texture_heightmap");
+	this->texture = this->heightmap;
 
 }
 
@@ -96,9 +97,9 @@ void TerrainMesh::draw(Shader& shader) {
 		shader.setInt("terrainTexture", 0);
 		glBindTexture(GL_TEXTURE_2D, texture->id);
 
-		glActiveTexture(GL_TEXTURE1);
-		shader.setInt("heightmap", 1);
-		glBindTexture(GL_TEXTURE_2D, heightmap->id);
+		//glActiveTexture(GL_TEXTURE1);
+		//shader.setInt("heightmap", 1);
+		//glBindTexture(GL_TEXTURE_2D, heightmap->id);
 
 		glActiveTexture(GL_TEXTURE0);
 		shouldUpdateTexture = false;
