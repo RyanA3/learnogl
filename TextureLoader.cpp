@@ -1,20 +1,22 @@
 #include "TextureLoader.h"
+using namespace std;
+
+vector<ImageData> loadedImageData = vector<ImageData>();
+vector<Texture> loaded_textures = vector<Texture>();
 
 
-std::vector<ImageData> loadedImageData = std::vector<ImageData>();
-std::vector<Texture> loaded_textures = std::vector<Texture>();
-
-
-ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannels) {
+ImageData* LoadImageDataFromFile(string path, int desiredChannels) {
 	for (unsigned int i = 0; i < loadedImageData.size(); i++) {
 		if (loadedImageData[i].path == path)
 			return &loadedImageData[i];
 	}
-	std::cout << "Loading NEW (Image Data): " << path << std::endl;
+	cout << "Loading NEW (Image Data): " << path << endl;
 
 	//Load texture
 	ImageData image = ImageData();
-	int width = 0, height = 0, nrChannels = 0;
+	image.path = path;
+
+	int width, height, nrChannels;
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, desiredChannels);
 	if (data) {
 
@@ -29,7 +31,7 @@ ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannel
 		//stbi_image_free(data);
 	}
 	else {
-		std::cout << "ERROR: Failed to load texture " << path << std::endl;
+		cout << "ERROR: Failed to load texture " << path << endl;
 		return nullptr;
 	}
 
@@ -37,25 +39,22 @@ ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannel
 	image.height = height;
 	image.nrChannels = nrChannels;
 	image.data = data;
-	image.path = path;
 
-	if (save)
-		loadedImageData.push_back(image);
-
+	loadedImageData.push_back(image);
 	return &loadedImageData[loadedImageData.size() - 1];
 
 }
 
 
 
-Texture* LoadTextureFromFile(std::string path, std::string texture_type) {
+Texture* LoadTextureFromFile(string path, string texture_type) {
 
 	//Return the texture if its already loaded
 	for (unsigned int i = 0; i < loaded_textures.size(); i++) {
 		if (loaded_textures[i].path == path) 
 			return &loaded_textures[i];
 	} 
-	std::cout << "Loading NEW (Texture): " << path << std::endl;
+	cout << "Loading NEW (Texture): " << path << endl;
 
 
 	//Generate texture
@@ -89,12 +88,12 @@ Texture* LoadTextureFromFile(std::string path, std::string texture_type) {
 		stbi_image_free(data);
 	}
 	else {
-		std::cout << "ERROR: Failed to load texture " << path << std::endl;
+		cout << "ERROR: Failed to load texture " << path << endl;
 	}
 
 	Texture loaded = Texture();
 	loaded.id = texture;
-	loaded.path = std::string(path);
+	loaded.path = string(path);
 	loaded.type = texture_type;
 	loaded_textures.push_back(loaded);
 

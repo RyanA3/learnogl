@@ -9,6 +9,7 @@ class TerrainMesh {
 private:
 	int resolution = 16;
 	float width = 5.0f;
+	float height = 1.0f;
 	float ds = width / (float) resolution;
 	float dss = width / (float) (resolution * resolution);
 	bool shouldUpdateFeatures = true;
@@ -22,12 +23,11 @@ private:
 	unsigned int VBO, VAO, EBO;
 
 	Texture* texture;
-	Texture* heightmap;
 	bool shouldUpdateTexture = true;
 
 public:
 	TerrainMesh();
-	TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width);
+	TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width, float height);
 
 	void setupMesh();
 	void draw(Shader& shader);

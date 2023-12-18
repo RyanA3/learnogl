@@ -30,17 +30,16 @@ TerrainMesh::TerrainMesh() {
 	setupMesh();
 
 	this->texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "texture_diffuse");
-	this->heightmap = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\heightmap1.png", "texture_heightmap");
+	//this->heightmap = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\heightmap1.png", "texture_heightmap");
 }
 
-TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width) : resolution(resolution), width(width) {
+TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width, float height) : resolution(resolution), width(width), height(height) {
 	//Generate vertices
 	for (int row = 0; row < resolution; row++) {
 		for (int col = 0; col < resolution; col++) {
-			//vertices.push_back(0.0f);
-			float x = (float) row / resolution;
-			float z = (float) col / resolution;
-			vertices.push_back(heightmap->sample(x, z).x / 255.0f);
+			float x = ((float)row + 0.5f) / resolution;
+			float z = ((float)col + 0.5f) / resolution;
+			vertices.push_back((heightmap->sample(x, z).x / 255.0f) * height);
 		}
 	}
 
@@ -61,8 +60,6 @@ TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::ve
 	setupMesh();
 
 	this->texture = LoadTextureFromFile("resources/images/container.jpg", "texture_diffuse");
-	this->heightmap = LoadTextureFromFile("resources/images/heightmap1.png", "texture_heightmap");
-	this->texture = this->heightmap;
 
 }
 
@@ -107,7 +104,7 @@ void TerrainMesh::draw(Shader& shader) {
 
 	if (shouldUpdateModel) {
 		glm::mat4 model = glm::mat4(1.0f);
-		//model = glm::translate(model, pos);
+		model = glm::translate(model, pos);
 		shader.setMat4("model", model);
 		shouldUpdateModel = false;
 	}

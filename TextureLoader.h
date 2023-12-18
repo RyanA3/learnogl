@@ -19,17 +19,13 @@ struct ImageData {
 	//For 3 channel images
 	glm::vec3 sample(float sx, float sy) {
 		int px = sx * width;
-		int py = sy * this->height;
-		std::cout << sy << " * " << this->height << " = " << py << std::endl;
+		int py = sy * height;
 		int index = (py * width + px) * nrChannels;
 		if (index < 0) index = 0;
-		if (index > (width) * (height) * nrChannels) index = (((width) * (height)) * nrChannels) - nrChannels;
-		unsigned char r, g, b;
-		r = data[index];
-		g = data[index + 1];
-		b = data[index + 2];
-		std::cout << "Sample @(" << sx << "," << sy << ") = (" << px << "," << py << ") -> rgb(" << r << "," << g << "," << b << ")" << std::endl;
-		return glm::vec3(r, g, b);
+		if (index > (width * height * nrChannels) - nrChannels) index = (width * height * nrChannels) - nrChannels;
+		//std::cout << "Sample @(" << sx << "," << sy << ") p(" << px << "," << py << ") = rgb(" << (int)data[index] << "," << (int)data[index + 1] << "," << (int)data[index + 2] << ")" << std::endl;
+
+		return glm::vec3(data[index], data[index+1], data[index+2]);
 	}
 
 };
@@ -46,7 +42,5 @@ struct Texture {
 };
 
 
-ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannels);
-
-//Utility function for loading textures
+ImageData* LoadImageDataFromFile(std::string path, int desiredChannels);
 Texture* LoadTextureFromFile(std::string path, std::string texture_type);
