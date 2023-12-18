@@ -1,21 +1,54 @@
 #include "TextureLoader.h"
 
 
-
+std::vector<ImageData> loadedImageData = std::vector<ImageData>();
 std::vector<Texture> loaded_textures = std::vector<Texture>();
 
 
+ImageData* LoadImageDataFromFile(std::string path, bool save, int desiredChannels) {
+	for (unsigned int i = 0; i < loadedImageData.size(); i++) {
+		if (loadedImageData[i].path == path)
+			return &loadedImageData[i];
+	}
+	std::cout << "Loading NEW (Image Data): " << path << std::endl;
 
-//Utility function for loading textures
+	//Load texture
+	ImageData image = ImageData();
+	image.data = stbi_load(path.c_str(), &image.width, &image.height, &image.nrChannels, desiredChannels);
+	if (image.data) {
+
+		GLenum format = GL_RED;
+		if (image.nrChannels == 1)
+			image.format = GL_RED;
+		else if (image.nrChannels == 3)
+			image.format = GL_RGB;
+		else if (image.nrChannels == 4)
+			image.format = GL_RGBA;
+
+		stbi_image_free(image.data);
+	}
+	else {
+		std::cout << "ERROR: Failed to load texture " << path << std::endl;
+		return nullptr;
+	}
+
+	if (save)
+		loadedImageData.push_back(image);
+
+	return &image;
+
+}
+
+
+
 Texture* LoadTextureFromFile(std::string path, std::string texture_type) {
 
-	//Simply return the texture if its already loaded
+	//Return the texture if its already loaded
 	for (unsigned int i = 0; i < loaded_textures.size(); i++) {
 		if (loaded_textures[i].path == path) 
 			return &loaded_textures[i];
 	} 
-	//Otherwise, load the texture...
-
+	std::cout << "Loading NEW (Texture): " << path << std::endl;
 
 
 	//Generate texture
@@ -58,6 +91,7 @@ Texture* LoadTextureFromFile(std::string path, std::string texture_type) {
 	loaded.type = texture_type;
 	loaded_textures.push_back(loaded);
 
-	return &loaded_textures[loaded_textures.size() - 1];
+	//return &loaded_textures[loaded_textures.size() - 1];
+	return &loaded;
 
 }

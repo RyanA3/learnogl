@@ -157,14 +157,14 @@ int main() {
 	Model backpackModel = Model("resources/models/backpack/backpack.obj");
 	SceneObject backpack = SceneObject(backpackModel, glm::vec3(3.0f, 0, 0));
 	//backpack.applyForce(glm::vec3(0.0f, -9.8f, 0.0f));
-	scene.addObject(backpack);
+	//scene.addObject(backpack);
 
 	Model cubeModel = Model("resources/models/cube/cube.obj");
 	SceneObject lightCube = SceneObject(cubeModel);
 	lightCube.setScale(0.2f);
 	glm::vec3 light_color = glm::vec3(0, 1.0f, 0);
 
-	Terrain terrain = Terrain();
+	TerrainMesh terrain = TerrainMesh(nullptr, glm::vec2(0.0f), glm::vec2(1.0f), 8, 10);
 
 
 

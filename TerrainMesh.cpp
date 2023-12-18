@@ -6,10 +6,10 @@ TerrainMesh::TerrainMesh() {
 	//Generate vertices
 	for (int row = 0; row < resolution; row++) {
 		for (int col = 0; col < resolution; col++) {
-			vertices.push_back(0.0f);
-			//float x = (((row - ((float)resolution / 2)) / resolution)) * 5;
-			//float z = (((col - ((float)resolution / 2)) / resolution)) * 5;
-			//vertices.push_back(x * x * z);
+			//vertices.push_back(0.0f);
+			float x = (((row - ((float)resolution / 2)) / resolution)) * 2;
+			float z = (((col - ((float)resolution / 2)) / resolution)) * 2;
+			vertices.push_back(x * x * z);
 		}
 	}
 
@@ -17,33 +17,52 @@ TerrainMesh::TerrainMesh() {
 	int cols = resolution;
 
 	for (int row = 0; row < rows-1; row++) {
-
 		indices.push_back(row * cols);
 
 		for (int col = 0; col < cols; col++) {
-
 			indices.push_back((row * cols) + col);
 			indices.push_back(((row + 1) * cols) + col);
-
 		}
 
 		indices.push_back((row + 1) * cols + (cols - 1));
-
 	}	
 
 	setupMesh();
 
-	texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "jpg");
+	this->texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "texture_diffuse");
+	this->heightmap = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\heightmap1.png", "texture_heightmap");
 }
 
-TerrainMesh::TerrainMesh(int resolution, float width) : resolution(resolution), width(width) {
-	for (int x = 0; x < resolution; x++) {
-		for (int z = 0; z < resolution; z++) {
-			//vertices.push_back(glm::vec3(x, 0.0f, z));
+TerrainMesh::TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width) : resolution(resolution), width(width) {
+	//Generate vertices
+	for (int row = 0; row < resolution; row++) {
+		for (int col = 0; col < resolution; col++) {
+			//vertices.push_back(0.0f);
+			float x = (float) row / resolution;
+			float z = (float) col / resolution;
+			vertices.push_back(x + z);
 		}
 	}
 
+	int rows = resolution;
+	int cols = resolution;
+
+	for (int row = 0; row < rows - 1; row++) {
+		indices.push_back(row * cols);
+
+		for (int col = 0; col < cols; col++) {
+			indices.push_back((row * cols) + col);
+			indices.push_back(((row + 1) * cols) + col);
+		}
+
+		indices.push_back((row + 1) * cols + (cols - 1));
+	}
+
 	setupMesh();
+
+	this->texture = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\container.jpg", "texture_diffuse");
+	this->heightmap = LoadTextureFromFile("C:\\Users\\Ryan\\source\\repos\\oglproject\\oglproject\\resources\\images\\heightmap1.png", "texture_heightmap");
+
 }
 
 void TerrainMesh::setupMesh() {
@@ -72,9 +91,18 @@ void TerrainMesh::setupMesh() {
 
 void TerrainMesh::draw(Shader& shader) {
 
-	glActiveTexture(GL_TEXTURE0);
-	shader.setInt("terrainTexture", 0);
-	glBindTexture(GL_TEXTURE_2D, texture->id);
+	if (shouldUpdateTexture) {
+		glActiveTexture(GL_TEXTURE0);
+		shader.setInt("terrainTexture", 0);
+		glBindTexture(GL_TEXTURE_2D, texture->id);
+
+		glActiveTexture(GL_TEXTURE1);
+		shader.setInt("heightmap", 1);
+		glBindTexture(GL_TEXTURE_2D, heightmap->id);
+
+		glActiveTexture(GL_TEXTURE0);
+		shouldUpdateTexture = false;
+	}
 
 	if (shouldUpdateModel) {
 		glm::mat4 model = glm::mat4(1.0f);

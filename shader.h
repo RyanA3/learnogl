@@ -30,6 +30,7 @@ public:
 	//Uniform functions for easy use
 	void setBool(const string& name, bool value) const;
 	void setInt(const string& name, int value) const;
+	void setTex(int location, int value) const;
 	void setFloat(const string& name, float value) const;
 	void setMat4(const std::string& name, glm::mat4 value) const;
 	void setMat3(const std::string& name, glm::mat3 value) const;
