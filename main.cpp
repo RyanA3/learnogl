@@ -126,8 +126,8 @@ int main() {
 
 	//Enable depth testing
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
 	//Initialize image loader
 	stbi_set_flip_vertically_on_load(true);
@@ -164,8 +164,9 @@ int main() {
 	lightCube.setScale(0.2f);
 	glm::vec3 light_color = glm::vec3(0, 1.0f, 0);
 
-	ImageData* heightmap = LoadImageDataFromFile("resources/images/heightmap1.png", 3);
-	TerrainMesh terrain = TerrainMesh(heightmap, glm::vec2(0.0f), glm::vec2(1.0f), 24, 10, 2);
+	ImageData* heightmap = LoadImageDataFromFile("resources/images/heightmap1.jpg", 3);
+	Texture* grass = LoadTextureFromFile("resources/images/grass.jpg", "diffuse_texture");
+	TerrainMesh terrain = TerrainMesh(heightmap, grass, glm::vec2(0.0f), glm::vec2(1), 4, 10, 2);
 
 
 
@@ -178,6 +179,7 @@ int main() {
 
 		scene.update(delta_time / 10.0f);
 		//backpack.update(delta_time / 10);
+		camera.pos.y = terrain.getHeight(camera.pos) + 0.5f;
 
 		//Clear the color and depth buffers each frame
 		glClearColor(0.35f, 0.375f, 0.5f, 1.0f);

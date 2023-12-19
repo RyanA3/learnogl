@@ -26,10 +26,10 @@ private:
 	bool shouldUpdateTexture = true;
 
 public:
-	TerrainMesh();
-	TerrainMesh(ImageData* heightmap, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width, float height);
+	TerrainMesh(ImageData* heightmap, Texture* surfaceTexture, glm::vec2 heightmapBegin, glm::vec2 heightmapSpan, int resolution, float width, float height);
 
 	void setupMesh();
 	void draw(Shader& shader);
+	float getHeight(glm::vec3 pos);
 
 };
