@@ -90,6 +90,7 @@ void TerrainMesh::draw(Shader& shader) {
 
 }
 
+//https://codeplea.com/triangular-interpolation
 float TerrainMesh::getHeight(glm::vec3 pos) {
 	if (pos.x > this->pos.x + this->width) return 0;
 	else if (pos.x < this->pos.x) return 0;
@@ -127,16 +128,20 @@ float TerrainMesh::getHeight(glm::vec3 pos) {
 		i1 = i4;
 	}
 
-	float w1 = 1 / d1;
-	float w2 = 1 / d2;
-	float w3 = 1 / d3;
+	//float w1 = 1 / d1;
+	//float w2 = 1 / d2;
+	//float w3 = 1 / d3;
+	float denom = 1 / (((pos2.y - pos3.y) * (pos1.x - pos3.x)) + ((pos3.x - pos2.x) * (pos1.y - pos3.y)));
+	float w1 = (((pos2.y - pos3.y) * (samplePos.x - pos3.x)) + ((pos3.x - pos2.x) * (samplePos.y - pos3.y))) * denom;
+	float w2 = (((pos3.y - pos1.y) * (samplePos.x - pos3.x)) + ((pos1.x - pos3.x) * (samplePos.y - pos3.y))) * denom;
+	float w3 = 1 - w1 - w2;
 
 	float h1 = w1 * vertices[i1];
 	float h2 = w2 * vertices[i2];
 	float h3 = w3 * vertices[i3];
 	float h = (h1 + h2 + h3) / (w1 + w2 + w3);
 
-	std::cout << "Mesh Sample d1(" << d1 << ")" << " d2(" << d2 << ") d3(" << d3 << ")" << std::endl;
+	std::cout << "Mesh Sample d1(" << w1 << ")" << " d2(" << w2 << ") d3(" << w3 << ")" << std::endl;
 
 	return h;
 }
