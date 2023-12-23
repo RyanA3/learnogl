@@ -90,30 +90,33 @@ void TerrainMesh::draw(Shader& shader) {
 
 }
 
-//https://codeplea.com/triangular-interpolation
+
 float TerrainMesh::getHeight(glm::vec3 pos) {
 	if (pos.x > this->pos.x + this->width) return 0;
 	else if (pos.x < this->pos.x) return 0;
 	if (pos.z > this->pos.z + this->width) return 0;
 	else if (pos.z < this->pos.z) return 0;
 
-	float sx = (pos.x - this->pos.x) / width;
-	float sz = (pos.z - this->pos.z) / width;
+	float sx = (pos.x - this->pos.x) * resolution / width;
+	float sz = (pos.z - this->pos.z) * resolution / width;
 	glm::vec2 samplePos = glm::vec2(sx, sz);
 
-	//Lowest xz closest
-	int vx = (int)(sx * resolution);
-	int vz = (int)(sz * resolution);
+	//Indices of the vertices of the quad the sample position is in
+	int vx = (int)(sx);
+	int vz = (int)(sz);
 	int i1 = vx * resolution + vz;
 	int i2 = (vx + 1) * resolution + vz;
-	int i3 = vx * resolution + vz + 1;
-	int i4 = (vx + 1) * resolution + vz + 1;
+	int i3 = i1 + 1;
+	int i4 = i2 + 1;
+	//int i3 = vx * resolution + vz + 1;
+	//int i4 = (vx + 1) * resolution + vz + 1;
 
+	//Coordinates of the verticies of the quad the sample position is in
 	glm::vec2 pos1, pos2, pos3, pos4;
-	pos1 = glm::vec2((float) vx / resolution, (float) vz / resolution);
-	pos2 = glm::vec2((float)(vx + 1) / resolution, (float)vz / resolution);
-	pos3 = glm::vec2((float)vx / resolution, (float)(vz + 1) / resolution);
-	pos4 = glm::vec2((float)(vx + 1) / resolution, (float)(vz + 1) / resolution);
+	pos1 = glm::vec2(vx, vz);
+	pos2 = glm::vec2(vx + 1, vz);
+	pos3 = glm::vec2(vx, vz + 1);
+	pos4 = glm::vec2(vx + 1, vz + 1);
 
 	float d1 = glm::distance(samplePos, pos1);
 	float d2 = glm::distance(samplePos, pos2);
@@ -128,9 +131,9 @@ float TerrainMesh::getHeight(glm::vec3 pos) {
 		i1 = i4;
 	}
 
-	//float w1 = 1 / d1;
-	//float w2 = 1 / d2;
-	//float w3 = 1 / d3;
+	if (i1 >= vertices.size() || i2 >= vertices.size() || i3 >= vertices.size()) return 0;
+	if (i1 < 0 || i2 < 0 || i3 < 0) return 0;
+
 	float denom = 1 / (((pos2.y - pos3.y) * (pos1.x - pos3.x)) + ((pos3.x - pos2.x) * (pos1.y - pos3.y)));
 	float w1 = (((pos2.y - pos3.y) * (samplePos.x - pos3.x)) + ((pos3.x - pos2.x) * (samplePos.y - pos3.y))) * denom;
 	float w2 = (((pos3.y - pos1.y) * (samplePos.x - pos3.x)) + ((pos1.x - pos3.x) * (samplePos.y - pos3.y))) * denom;
@@ -141,7 +144,7 @@ float TerrainMesh::getHeight(glm::vec3 pos) {
 	float h3 = w3 * vertices[i3];
 	float h = (h1 + h2 + h3) / (w1 + w2 + w3);
 
-	std::cout << "Mesh Sample d1(" << w1 << ")" << " d2(" << w2 << ") d3(" << w3 << ")" << std::endl;
+	//std::cout << "Mesh Sample d1(" << w1 << ")" << " d2(" << w2 << ") d3(" << w3 << ")" << std::endl;
 
 	return h;
 }

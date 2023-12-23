@@ -166,7 +166,7 @@ int main() {
 
 	ImageData* heightmap = LoadImageDataFromFile("resources/images/heightmap1.jpg", 3);
 	Texture* grass = LoadTextureFromFile("resources/images/grass.jpg", "diffuse_texture");
-	TerrainMesh terrain = TerrainMesh(heightmap, grass, glm::vec2(0.0f), glm::vec2(1), 4, 10, 2);
+	TerrainMesh terrain = TerrainMesh(heightmap, grass, glm::vec2(0.0f), glm::vec2(1), 16, 10, 2);
 
 
 
@@ -179,7 +179,9 @@ int main() {
 
 		scene.update(delta_time / 10.0f);
 		//backpack.update(delta_time / 10);
-		camera.pos.y = terrain.getHeight(camera.pos) + 0.5f;
+		camera.setPos(camera.pos - glm::vec3(0, 10, 0) * delta_time);
+		float theight = terrain.getHeight(camera.pos) + 0.5f;
+		if (camera.pos.y < theight) camera.pos.y = theight;
 
 		//Clear the color and depth buffers each frame
 		glClearColor(0.35f, 0.375f, 0.5f, 1.0f);

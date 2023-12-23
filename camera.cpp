@@ -107,6 +107,9 @@ void SpectatorCamera::processKeyInput(GLFWwindow* window, float delta_time) {
 		addPos(glm::vec3(0, -speed, 0));
 	else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
 		addPos(glm::vec3(0, speed, 0));
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		addPos(glm::vec3(0, speed * 10, 0));
 	
 };
 
